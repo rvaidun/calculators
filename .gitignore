@@ -25,3 +25,5 @@ yarn-error.log*
 .vscode
 backend/venv
 venv
+.idea/
+package-lock.json
