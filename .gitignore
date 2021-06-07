@@ -21,5 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.vscode
+backend/venv
+venv
 .idea/
 package-lock.json
