@@ -1,8 +1,12 @@
-from sympy import *
-from sympy.parsing.latex import parse_latex
-
-from flask import Flask, render_template, request, Response, url_for, redirect, session, jsonify
 import latex2sympy
+from flask import Flask, render_template, request, Response, url_for, redirect, session, jsonify
+from sympy.parsing.sympy_parser import parse_expr
+from sympy import *
+
+from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application
+transformations = (standard_transformations +
+                   (implicit_multiplication_application,))
+
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 
@@ -12,6 +16,9 @@ def divergence(matheq):
 
 
 @app.route('/', methods=['GET'])
+@app.route('/derivative')
+@app.route('/partial-derivative')
+@app.route('/help')
 def index():
     return app.send_static_file('index.html')
 
@@ -19,22 +26,13 @@ def index():
 @app.route('/calculator', methods=['POST'])
 def calculator():
     # print(request.json)
-    # print(request.json['mathequation'])
+    print(request.json)
     x = symbols('x')
-    # sym = latex2sympy.strToSympy(request.json['mathequation'])
-    # eq = parse_latex(request.json['mathequation'])
-    # dsym = diff(sym)
-    # print(latex(dsym))
-    # print(sym)
-    print(request.json['mathequation'])
-    # print(dsym)
-    # return dsym
-    if request.json['mathequation'] == "":
-        print("empty field")
-    return jsonify(request.json['mathequation'])
-    # latexMathEq = latex(request.json['mathequation'])
-    # print(latexMathEq)
-    # return jsonify("test")
+    request.json['mathequation'] = request.json['mathequation'].replace(
+        '^', '**')
+    eq = parse_expr(request.json['mathequation'],
+                    transformations=transformations)
+    return jsonify(latex(diff(eq, x)))
 
 
 if __name__ == '__main__':

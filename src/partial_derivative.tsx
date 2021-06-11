@@ -1,7 +1,7 @@
 import { MouseEventHandler, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import App from './App';
+import App from "./App";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
 
@@ -23,7 +23,8 @@ function PartialDerivative() {
   };
 
   const sendMath = () => {
-    const data = { mathequation: latexval };
+    const data = { mathequation: textboxval };
+    console.log(data);
     fetch("/calculator", {
       method: "POST",
       headers: {
@@ -46,7 +47,7 @@ function PartialDerivative() {
       <MathRenderer mathformula={latexval}></MathRenderer>
       <MathRenderer mathformula={latexanswer}></MathRenderer>
     </div>
-)
+  );
 }
 
 export default PartialDerivative;

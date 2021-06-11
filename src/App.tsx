@@ -24,43 +24,43 @@ function App() {
   // };
 
   const HomePage = () => (
-      <div>
-          <h1>Welcome to Calculators</h1>
-          <h3>Derivative</h3>
-          <Link to="/derivative">
-              <p>Derivative Calculator</p>
-          </Link>
-          <Link to="/partial-derivative">
-              <p>Partial Derivative Calculator</p>
-          </Link>
-          <Link to="/help">
-              <p className="smaller">Help?</p>
-          </Link>
-      </div>
+    <div>
+      <h1>Welcome to Calculators</h1>
+      <h3>Derivative</h3>
+      <Link to="/derivative">
+        <p>Derivative Calculator</p>
+      </Link>
+      <Link to="/partial-derivative">
+        <p>Partial Derivative Calculator</p>
+      </Link>
+      <Link to="/help">
+        <p className="smaller">Help?</p>
+      </Link>
+    </div>
   );
 
   const Help = () => (
-      <div>
-          <h1>Instructions</h1>
-      </div>
+    <div>
+      <h1>Instructions</h1>
+    </div>
   );
 
   const sendPartialDeriv = (e: any) => {
     fetch("/partial-derivative", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (
     <Router>
-        <div className="App">
-          <Route path="/" exact component={HomePage}/>
-          <Route path="/partial-derivative" component={PartialDerivative}/>
-          <Route path="/help" component={Help}/>
-          {/* <header className="App-header">
+      <div className="App">
+        <Route path="/" exact component={HomePage} />
+        <Route path="/partial-derivative" component={PartialDerivative} />
+        <Route path="/help" component={Help} />
+        {/* <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>
               Edit <code>src/App.tsx</code> and save to reload.
@@ -74,7 +74,7 @@ function App() {
               Learn React
             </a>
           </header> */}
-        </div>
+      </div>
     </Router>
   );
 }
