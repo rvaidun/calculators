@@ -1,32 +1,49 @@
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import MathRenderer from "./Components/MathRenderer";
+import { parse } from "mathjs";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import PartialDerivative from "./partial_derivative";
+import Discriminant from "./Discriminant";
+import Derivative from "./derivative";
+
 function App() {
-  const [textboxval, setTextBoxVal] = useState("");
-  return (
-    <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      <input
-        type="text"
-        value={textboxval}
-        onChange={(e) => setTextBoxVal(e.target.value)}
-      />
-      <MathRenderer mathformula={textboxval}></MathRenderer>
+  const HomePage = () => (
+    <div>
+      <h1>Welcome to Calculators</h1>
+      <h3>Derivative</h3>
+      <Link to="/derivative">
+        <p>Derivative Calculator</p>
+      </Link>
+      <Link to="/partial-derivative">
+        <p>Partial Derivative Calculator</p>
+      </Link>
+      <Link to="/discriminant">
+        <p>Discriminant Calculator</p>
+      </Link>
+      <Link to="/help">
+        <p className="smallerText">Help?</p>
+      </Link>
     </div>
+  );
+
+  const Help = () => (
+    <div>
+      <h1>Instructions</h1>
+    </div>
+  );
+
+  return (
+    <Router>
+      <div className="App">
+        <Route path="/" exact component={HomePage} />
+        <Route path="/derivative" component={Derivative} />
+        <Route path="/partial-derivative" component={PartialDerivative} />
+        <Route path="/discriminant" component={Discriminant} />
+        <Route path="/help" component={Help} />
+      </div>
+    </Router>
   );
 }
 
