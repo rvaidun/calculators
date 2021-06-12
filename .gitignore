@@ -28,3 +28,4 @@ venv
 .idea/
 package-lock.json
 backend/test.py
+backend/__pycache__
