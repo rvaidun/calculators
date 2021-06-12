@@ -39,7 +39,7 @@ function Discriminant() {
 
   return (
     <div className="PartialDerivative">
-      <h3>Partial Derivative</h3>
+      <h3>Discriminant, Saddle Points, Local Minima and Local Maxima</h3>
       <input type="text" value={textboxval} onChange={eqchange} />
       <button onClick={sendMath}></button>
       <MathRenderer mathformula={latexval}></MathRenderer>

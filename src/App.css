@@ -44,7 +44,13 @@ button{
   margin-top: 3px;
 }
 
-.smaller{
+.smallerText{
   font-size: 12px;
   font-style: italic;
+}
+
+.smallerTextBox{
+  width: 20px;
+  font-weight: bold;
+  position: center;
 }

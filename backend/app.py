@@ -4,9 +4,9 @@ from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 import calculatorsfuncs
 from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application
+
 transformations = (standard_transformations +
                    (implicit_multiplication_application,))
-
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 
@@ -25,13 +25,29 @@ def index():
 
 @app.route('/calculator', methods=['POST'])
 def calculator():
-    # print(request.json)
     print(request.json)
     x = symbols('x')
+    if request.json['mathequation'] == "":
+        return jsonify("Empty")
     request.json['mathequation'] = request.json['mathequation'].replace(
         '^', '**')
     eq = parse_expr(request.json['mathequation'],
                     transformations=transformations)
+    print(diff(eq, x))
+    return jsonify(latex(diff(eq, x)))
+
+
+@app.route('/calculator2', methods=['POST'])  # currently is the exact same as calculator
+def partial_derivative():
+    print(request.json)
+    x = symbols('x')
+    if request.json['mathequation'] == "":
+        return jsonify("Empty")
+    request.json['mathequation'] = request.json['mathequation'].replace(
+        '^', '**')
+    eq = parse_expr(request.json['mathequation'],
+                    transformations=transformations)
+    print(diff(eq, x))
     return jsonify(latex(diff(eq, x)))
 
 

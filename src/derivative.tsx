@@ -5,7 +5,7 @@ import App from "./App";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
 
-function PartialDerivative() {
+function Derivative() {
   const [textboxval, setTextBoxVal] = useState("");
   const [latexval, setLatexVal] = useState("");
   const [latexanswer, setLatexAnswer] = useState("");
@@ -25,7 +25,7 @@ function PartialDerivative() {
   const sendMath = () => {
     const data = { mathequation: textboxval };
     console.log(data);
-    fetch("/calculator2", {
+    fetch("/calculator", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,10 +40,9 @@ function PartialDerivative() {
   };
 
     return (
-      <div className="PartialDerivative">
-        <h3>Partial Derivative</h3>
+      <div className="Derivative">
+        <h3>Derivative</h3>
         <input type="text" value={textboxval} onChange={eqchange} />
-        <input maxLength={1} className="smallerTextBox" type="text" />
         <button onClick={sendMath}></button>
         <MathRenderer mathformula={latexval}></MathRenderer>
         <MathRenderer mathformula={latexanswer}></MathRenderer>
@@ -51,4 +50,4 @@ function PartialDerivative() {
     );
 }
 
-export default PartialDerivative;
+export default Derivative

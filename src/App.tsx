@@ -6,6 +6,7 @@ import { parse } from "mathjs";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PartialDerivative from "./partial_derivative";
 import Discriminant from "./Discriminant";
+import Derivative from "./derivative";
 
 function App() {
   const HomePage = () => (
@@ -22,7 +23,7 @@ function App() {
         <p>Discriminant Calculator</p>
       </Link>
       <Link to="/help">
-        <p className="smaller">Help?</p>
+        <p className="smallerText">Help?</p>
       </Link>
     </div>
   );
@@ -33,22 +34,14 @@ function App() {
     </div>
   );
 
-  const sendPartialDeriv = (e: any) => {
-    fetch("/partial-derivative", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  };
-
   return (
     <Router>
       <div className="App">
         <Route path="/" exact component={HomePage} />
+        <Route path="/derivative" component={Derivative} />
         <Route path="/partial-derivative" component={PartialDerivative} />
-        <Route path="/help" component={Help} />
         <Route path="/discriminant" component={Discriminant} />
+        <Route path="/help" component={Help} />
       </div>
     </Router>
   );
