@@ -10,9 +10,8 @@ import Derivative from "./derivative";
 
 function App() {
   const HomePage = () => (
-    <div>
-      <h1>Welcome to Calculators</h1>
-      <h3>Derivative</h3>
+    <div className="standard">
+      <h1>Homework Helpers</h1>
       <Link to="/derivative">
         <p>Derivative Calculator</p>
       </Link>

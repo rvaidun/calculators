@@ -17,7 +17,7 @@ function Derivative() {
       blockinline = parse(e.target.value).toTex();
       console.log(blockinline);
     } catch {
-      blockinline = parse(`error`).toTex();
+      blockinline = parse(`Not a valid input`).toTex();
     }
     setLatexVal(blockinline);
   };
@@ -40,10 +40,10 @@ function Derivative() {
   };
 
     return (
-      <div className="Derivative">
+      <div className="standard">
         <h3>Derivative</h3>
         <input type="text" value={textboxval} onChange={eqchange} />
-        <button onClick={sendMath}></button>
+        <button onClick={sendMath}>Go</button>
         <MathRenderer mathformula={latexval}></MathRenderer>
         <MathRenderer mathformula={latexanswer}></MathRenderer>
       </div>

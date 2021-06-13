@@ -37,10 +37,16 @@ def calculator():
     return jsonify(latex(diff(eq, x)))
 
 
-@app.route('/calculator2', methods=['POST'])  # currently is the exact same as calculator
+@app.route('/calculator2', methods=['POST'])
 def partial_derivative():
     print(request.json)
-    x = symbols('x')
+    respect_to_var = request.json['respectTo']
+    try:
+        respect_to_var = int(respect_to_var)
+        return jsonify("Error")
+    except ValueError:
+        print("Letter passed in")
+    x = symbols(f'{respect_to_var}')
     if request.json['mathequation'] == "":
         return jsonify("Empty")
     request.json['mathequation'] = request.json['mathequation'].replace(
@@ -54,6 +60,8 @@ def partial_derivative():
 @app.route('/discriminant', methods=['POST'])
 def disc():
     x, y = symbols('x y')
+    if request.json['mathequation'] == "":
+        return jsonify("")
     request.json['mathequation'] = request.json['mathequation'].replace(
         '^', '**')
     eq = parse_expr(request.json['mathequation'],

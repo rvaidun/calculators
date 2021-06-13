@@ -15,7 +15,7 @@ function Discriminant() {
       blockinline = parse(e.target.value).toTex();
       console.log(blockinline);
     } catch {
-      blockinline = parse(`error`).toTex();
+      blockinline = parse(`Not a valid input`).toTex();
     }
     setLatexVal(blockinline);
   };
@@ -37,11 +37,24 @@ function Discriminant() {
       });
   };
 
+  if (latexanswer == "")
+    {
+      return (
+          <div className="standard">
+            <h3>Discriminant, Saddle Points, Local Minima and Local Maxima</h3>
+            <input type="text" value={textboxval} onChange={eqchange} />
+            <button onClick={sendMath}>Go</button>
+            <MathRenderer mathformula={latexval}></MathRenderer>
+            <h2>Empty Field</h2>
+          </div>
+      )
+    }
+
   return (
-    <div className="PartialDerivative">
+    <div className="standard">
       <h3>Discriminant, Saddle Points, Local Minima and Local Maxima</h3>
       <input type="text" value={textboxval} onChange={eqchange} />
-      <button onClick={sendMath}></button>
+      <button onClick={sendMath}>Go</button>
       <MathRenderer mathformula={latexval}></MathRenderer>
       {latexanswer !== null ? (
         <>
