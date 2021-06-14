@@ -2,14 +2,23 @@ from sympy import *
 from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, convert_xor
 from sympy.parsing.sympy_parser import parse_expr
 
-transformations = (standard_transformations + (implicit_multiplication_application,) + (convert_xor,))
+def my_transformations(a, b, c):
+    result = []
+    for t in a:
+        if t[1] == 'e':
+            result.append((t[0], 'E'))
+        else:
+            result.append(t)
+    return result
+
+transformations = ((my_transformations,) + standard_transformations + (implicit_multiplication_application,) + (convert_xor,) )
 
 #x^3+y^4-6*x-2*y^2+2
 
 def saddle_min_max(data):
     x, y = symbols('x y')
     data['mathequation'] = data['mathequation']
-    f = parse_expr(data['mathequation'], transformations=transformations).replace('e','E')
+    f = parse_expr(data['mathequation'], transformations=transformations)
     fx = diff(f, x)
     fy = diff(f, y)
     D = diff(fx, x)*diff(fy, y)-diff(diff(f, x), y)**2
@@ -44,7 +53,7 @@ def tangent_plane_to_graph(data):
     x, y = symbols('x y')
     xs = int(data['point'][0])
     ys = int(data['point'][1])
-    data['mathequation'] = data['mathequation'].replace('e','E')
+    data['mathequation'] = data['mathequation']
     f = parse_expr(data['mathequation'], transformations=transformations)
     print('f', latex(f))
     hardcoded = E**(5*x-6*y)
