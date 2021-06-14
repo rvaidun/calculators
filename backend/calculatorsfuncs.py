@@ -10,7 +10,7 @@ def my_transformations(a, b, c):
             result.append(t)
     return result
 
-transformations = ((my_transformations,) + standard_transformations + (implicit_multiplication_application,) + (convert_xor,) )
+transformations = ((my_transformations,) + standard_transformations + (implicit_multiplication_application,convert_xor))
 
 #x^3+y^4-6*x-2*y^2+2
 
