@@ -1,14 +1,19 @@
-import latex2sympy
 from flask import Flask, render_template, request, Response, url_for, redirect, session, jsonify
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 import calculatorsfuncs
-from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application
+from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, convert_xor
 
 transformations = (standard_transformations +
-                   (implicit_multiplication_application,))
+                   (implicit_multiplication_application,) + (convert_xor,) )
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
+calcs = {'discriminant': calculatorsfuncs.saddle_min_max,
+         'tangentplane': calculatorsfuncs.tangent_plane_to_graph,
+         'derivative': calculatorsfuncs.derivative,
+         'partial_derivative': calculatorsfuncs.partial_derivative,
+         'taylor': calculatorsfuncs.taylor,
+         }
 
 
 def divergence(matheq):
@@ -26,40 +31,8 @@ def index():
 @app.route('/calculator', methods=['POST'])
 def calculator():
     print(request.json)
-    x = symbols('x')
-    if request.json['mathequation'] == "":
-        return jsonify("Empty")
-    request.json['mathequation'] = request.json['mathequation'].replace(
-        '^', '**')
-    eq = parse_expr(request.json['mathequation'],
-                    transformations=transformations)
-    print(diff(eq, x))
-    return jsonify(latex(diff(eq, x)))
-
-
-@app.route('/calculator2', methods=['POST'])  # currently is the exact same as calculator
-def partial_derivative():
-    print(request.json)
-    x = symbols('x')
-    if request.json['mathequation'] == "":
-        return jsonify("Empty")
-    request.json['mathequation'] = request.json['mathequation'].replace(
-        '^', '**')
-    eq = parse_expr(request.json['mathequation'],
-                    transformations=transformations)
-    print(diff(eq, x))
-    return jsonify(latex(diff(eq, x)))
-
-
-@app.route('/discriminant', methods=['POST'])
-def disc():
-    x, y = symbols('x y')
-    request.json['mathequation'] = request.json['mathequation'].replace(
-        '^', '**')
-    eq = parse_expr(request.json['mathequation'],
-                    transformations=transformations)
-    print("diff of eq", diff(eq, x))
-    return jsonify(calculatorsfuncs.saddle_min_max(eq, x, y))
+    if request.json['calculator'] in calcs:
+        return jsonify(calcs[request.json['calculator']](request.json['data']))
 
 
 if __name__ == '__main__':

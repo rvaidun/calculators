@@ -9,6 +9,7 @@ function PartialDerivative() {
   const [textboxval, setTextBoxVal] = useState("");
   const [latexval, setLatexVal] = useState("");
   const [latexanswer, setLatexAnswer] = useState("");
+  const [respectToBoxVal, setrespectToBoxVal] = useState("");
 
   const eqchange = (e: any) => {
     setTextBoxVal(e.target.value);
@@ -17,15 +18,30 @@ function PartialDerivative() {
       blockinline = parse(e.target.value).toTex();
       console.log(blockinline);
     } catch {
-      blockinline = parse(`error`).toTex();
+      blockinline = parse(`Not a valid input`).toTex();
     }
     setLatexVal(blockinline);
   };
 
+  const varchange = (e: any) => {
+    setrespectToBoxVal(e.target.value);
+    let blockinline: string;
+    try {
+      blockinline = parse(e.target.value).toTex();
+      console.log(blockinline);
+    } catch {
+      blockinline = parse(`Not a valid input`).toTex();
+    }
+  };
+
   const sendMath = () => {
-    const data = { mathequation: textboxval };
+    const data = {
+      calculator: "partial_derivative",
+      data: { mathequation: textboxval , respectTo: respectToBoxVal},
+
+    };
     console.log(data);
-    fetch("/calculator2", {
+    fetch("/calculator", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,12 +56,14 @@ function PartialDerivative() {
   };
 
     return (
-      <div className="PartialDerivative">
+      <div className="standard">
         <h3>Partial Derivative</h3>
-        <input type="text" value={textboxval} onChange={eqchange} />
-        <input maxLength={1} className="smallerTextBox" type="text" />
-        <button onClick={sendMath}></button>
+        <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
+        <input type="text" value={respectToBoxVal} maxLength={1} onChange={varchange} className="smallerTextBox" />
+        <button onClick={sendMath}>Go</button>
         <MathRenderer mathformula={latexval}></MathRenderer>
+          <p>With respect to:</p>
+          <MathRenderer mathformula={respectToBoxVal}></MathRenderer>
         <MathRenderer mathformula={latexanswer}></MathRenderer>
       </div>
     );

@@ -37,20 +37,60 @@
   }
 }
 
-button{
+button {
   width: 50px;
-  height: 15px;
-  border-radius: 5px;
+  height: 20px;
+  border-radius: 10px;
   margin-top: 3px;
+  background-color: lightskyblue;
+  border-color: black;
+  /* margin-right: -2%; */
 }
 
-.smallerText{
+.smallerText {
   font-size: 12px;
   font-style: italic;
 }
 
-.smallerTextBox{
+.smallerTextBox {
   width: 20px;
   font-weight: bold;
   position: center;
+}
+
+input {
+  font-size: 20px;
+  width: 150px;
+  height: 30px;
+}
+
+h3 {
+  color: blue;
+}
+h2 {
+  color: red;
+}
+
+.standard {
+  border: 15px solid blue;
+  border-radius: 15px;
+  margin-right: 30%;
+  margin-left: 30%;
+  padding: 40px;
+}
+
+.mathrenderer {
+  overflow: auto;
+}
+
+.MuiAccordionDetails-root {
+  border-radius: 10px;
+  background-color: lavender;
+  position: center;
+  overflow: auto;
+}
+
+ul {
+  position: center;
+  margin-left: -5%;
 }

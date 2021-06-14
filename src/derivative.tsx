@@ -17,13 +17,16 @@ function Derivative() {
       blockinline = parse(e.target.value).toTex();
       console.log(blockinline);
     } catch {
-      blockinline = parse(`error`).toTex();
+      blockinline = parse(`Not a valid input`).toTex();
     }
     setLatexVal(blockinline);
   };
 
   const sendMath = () => {
-    const data = { mathequation: textboxval };
+    const data = {
+      calculator: "derivative",
+      data: { mathequation: textboxval },
+    };
     console.log(data);
     fetch("/calculator", {
       method: "POST",
@@ -40,10 +43,10 @@ function Derivative() {
   };
 
     return (
-      <div className="Derivative">
+      <div className="standard">
         <h3>Derivative</h3>
-        <input type="text" value={textboxval} onChange={eqchange} />
-        <button onClick={sendMath}></button>
+        <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
+        <button onClick={sendMath}>Go</button>
         <MathRenderer mathformula={latexval}></MathRenderer>
         <MathRenderer mathformula={latexanswer}></MathRenderer>
       </div>

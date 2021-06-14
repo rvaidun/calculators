@@ -7,12 +7,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PartialDerivative from "./partial_derivative";
 import Discriminant from "./Discriminant";
 import Derivative from "./derivative";
-
+import TangentPlane from "./TangentPlane";
+import Taylor from "./Taylor";
 function App() {
   const HomePage = () => (
-    <div>
-      <h1>Welcome to Calculators</h1>
-      <h3>Derivative</h3>
+    <div className="standard">
+      <h1>VCalcs</h1>
       <Link to="/derivative">
         <p>Derivative Calculator</p>
       </Link>
@@ -21,6 +21,12 @@ function App() {
       </Link>
       <Link to="/discriminant">
         <p>Discriminant Calculator</p>
+      </Link>
+      <Link to="/tangentplane">
+        <p>Tangent Plane</p>
+      </Link>
+      <Link to="/taylor">
+        <p>Taylor Polynomial</p>
       </Link>
       <Link to="/help">
         <p className="smallerText">Help?</p>
@@ -41,6 +47,8 @@ function App() {
         <Route path="/derivative" component={Derivative} />
         <Route path="/partial-derivative" component={PartialDerivative} />
         <Route path="/discriminant" component={Discriminant} />
+        <Route path="/tangentplane" component={TangentPlane} />
+        <Route path="/taylor" component={Taylor} />
         <Route path="/help" component={Help} />
       </div>
     </Router>
