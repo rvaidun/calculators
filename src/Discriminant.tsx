@@ -1,4 +1,10 @@
 import { MouseEventHandler, useState } from "react";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Typography from "@material-ui/core/Typography";
+
 import "./App.css";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
@@ -49,20 +55,36 @@ function Discriminant() {
       <MathRenderer mathformula="\frac{d^{2}}{d x^{2}} f \frac{d^{2}}{d y^{2}} f - \left(\frac{d^{2}}{d yd x} f\right)^{2}" />
       <input type="text" value={textboxval} onChange={eqchange} />
       <button onClick={sendMath}>Go</button>
-      <MathRenderer className="mathrenderer" mathformula={latexval}></MathRenderer>
+      <MathRenderer
+        className="mathrenderer"
+        mathformula={latexval}
+      ></MathRenderer>
       {latexanswer !== null ? (
         <>
           <h1>Discriminent</h1>
-          {latexanswer.steps.discriminant.map((l) => (
-            <>
-              {"text" in l ? (
-                <p>{l.text}</p>
-              ) : (
-                <MathRenderer mathformula={l.latex} />
-              )}
-            </>
-          ))}
-          <MathRenderer mathformula={latexanswer.discriminant} />
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <MathRenderer mathformula={latexanswer.discriminant} />
+            </AccordionSummary>
+
+            <AccordionDetails className="detailcenter">
+              <ol>
+                {latexanswer.steps.discriminant.map((l) => (
+                  <>
+                    {"text" in l ? (
+                      <p>{l.text}</p>
+                    ) : (
+                      <MathRenderer mathformula={l.latex} />
+                    )}
+                  </>
+                ))}
+              </ol>
+            </AccordionDetails>
+          </Accordion>
           <h1>Saddle Points</h1>
           <ul>
             {latexanswer.steps.saddlepoints.map((l) => (
