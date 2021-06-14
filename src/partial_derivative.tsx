@@ -35,9 +35,13 @@ function PartialDerivative() {
   };
 
   const sendMath = () => {
-    const data = { mathequation: textboxval, respectTo: respectToBoxVal }
+    const data = {
+      calculator: "partial_derivative",
+      data: { mathequation: textboxval , respectTo: respectToBoxVal},
+
+    };
     console.log(data);
-    fetch("/calculator2", {
+    fetch("/calculator", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

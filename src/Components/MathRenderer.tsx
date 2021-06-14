@@ -6,7 +6,7 @@ import { Node } from "@nteract/mathjax";
 const MathRenderer = (props: any) => {
   return (
     <div>
-      <p>
+      <p className="mathrenderer">
         <Node>{props.mathformula}</Node>
       </p>
     </div>

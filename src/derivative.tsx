@@ -23,7 +23,10 @@ function Derivative() {
   };
 
   const sendMath = () => {
-    const data = { mathequation: textboxval };
+    const data = {
+      calculator: "derivative",
+      data: { mathequation: textboxval },
+    };
     console.log(data);
     fetch("/calculator", {
       method: "POST",

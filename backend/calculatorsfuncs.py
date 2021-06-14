@@ -14,6 +14,27 @@ transformations = ((my_transformations,) + standard_transformations + (implicit_
 
 #x^3+y^4-6*x-2*y^2+2
 
+def derivative(data):
+    x = symbols('x')
+    parsed = parse_expr(data['mathequation'], transformations=transformations)
+    return latex(diff(parsed, x))
+
+def partial_derivative(data):
+    respect_to_var = data['respectTo']
+    try:
+        respect_to_var = int(respect_to_var)
+        return "Error"
+    except ValueError:
+        print("Letter passed in")
+    x = symbols(f'{respect_to_var}')
+    if data['mathequation'] == "":
+        return "Empty"
+    data['mathequation'] = data['mathequation']
+    eq = parse_expr(data['mathequation'],
+                    transformations=transformations)
+    print(diff(eq, x))
+    return latex(diff(eq, x))
+
 def saddle_min_max(data):
     x, y = symbols('x y')
     data['mathequation'] = data['mathequation']

@@ -49,7 +49,7 @@ function Discriminant() {
       <MathRenderer mathformula="\frac{d^{2}}{d x^{2}} f \frac{d^{2}}{d y^{2}} f - \left(\frac{d^{2}}{d yd x} f\right)^{2}" />
       <input type="text" value={textboxval} onChange={eqchange} />
       <button onClick={sendMath}>Go</button>
-      <MathRenderer mathformula={latexval}></MathRenderer>
+      <MathRenderer className="mathrenderer" mathformula={latexval}></MathRenderer>
       {latexanswer !== null ? (
         <>
           <h1>Discriminent</h1>

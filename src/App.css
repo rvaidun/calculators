@@ -78,3 +78,7 @@ h2{
   margin-left: 40%;
   padding: 40px;
 }
+
+.mathrenderer{
+  overflow: auto;
+}

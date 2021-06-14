@@ -9,7 +9,9 @@ transformations = (standard_transformations +
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 calcs = {'discriminant': calculatorsfuncs.saddle_min_max,
-         'tangentplane': calculatorsfuncs.tangent_plane_to_graph
+         'tangentplane': calculatorsfuncs.tangent_plane_to_graph,
+         'derivative': calculatorsfuncs.derivative,
+         'partial_derivative': calculatorsfuncs.partial_derivative,
          }
 
 
@@ -49,18 +51,6 @@ def partial_derivative():
                     transformations=transformations)
     print(diff(eq, x))
     return jsonify(latex(diff(eq, x)))
-
-
-@app.route('/discriminant', methods=['POST'])
-def disc():
-    x, y = symbols('x y')
-    if request.json['mathequation'] == "":
-        return jsonify("")
-    request.json['mathequation'] = request.json['mathequation']
-    eq = parse_expr(request.json['mathequation'],
-                    transformations=transformations)
-    print("diff of eq", diff(eq, x))
-    return jsonify(calculatorsfuncs.saddle_min_max(eq, x, y))
 
 
 if __name__ == '__main__':
