@@ -23,6 +23,9 @@ def divergence(matheq):
 @app.route('/derivative')
 @app.route('/partial-derivative')
 @app.route('/help')
+@app.route('/tangentplane')
+@app.route('/taylor')
+@app.route('/discriminant')
 def index():
     return app.send_static_file('index.html')
 
@@ -32,25 +35,6 @@ def calculator():
     print(request.json)
     if request.json['calculator'] in calcs:
         return jsonify(calcs[request.json['calculator']](request.json['data']))
-
-
-@app.route('/calculator2', methods=['POST'])
-def partial_derivative():
-    print(request.json)
-    respect_to_var = request.json['respectTo']
-    try:
-        respect_to_var = int(respect_to_var)
-        return jsonify("Error")
-    except ValueError:
-        print("Letter passed in")
-    x = symbols(f'{respect_to_var}')
-    if request.json['mathequation'] == "":
-        return jsonify("Empty")
-    request.json['mathequation'] = request.json['mathequation']
-    eq = parse_expr(request.json['mathequation'],
-                    transformations=transformations)
-    print(diff(eq, x))
-    return jsonify(latex(diff(eq, x)))
 
 
 if __name__ == '__main__':
