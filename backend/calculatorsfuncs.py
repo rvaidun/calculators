@@ -1,7 +1,6 @@
 from sympy import *
 from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, convert_xor
 from sympy.parsing.sympy_parser import parse_expr
-
 def my_transformations(a, b, c):
     result = []
     for t in a:
@@ -22,12 +21,23 @@ def saddle_min_max(data):
     fx = diff(f, x)
     fy = diff(f, y)
     D = diff(fx, x)*diff(fy, y)-diff(diff(f, x), y)**2
-    print("Latex of D", latex(D))
     mina = []
     maxa = []
     sp = []
     op = []
     ret = {}
+    ret ['steps'] = {'discriminant': [
+    {'text':"The Derivative of f with respect to x"}, {'latex':latex(fx)},
+    {'text':"The Derivative of fx with respect to x"}, {'latex':latex(diff(fx, x))},
+    {'text':"The derivative of f with respect to y"}, {'latex':latex(fy)},
+    {'text':"The derivative of fy with respect to y"}, {'latex':latex(diff(fy, y))},
+    {'text':"The derivative of f with respect to x and y"}, {'latex':latex(diff(diff(f, x), y))}
+    ]}
+    ret['steps']['saddlepoints'] = [
+        {'text':"Solving for x and y with by setting derivatives equal"}, {'latex':latex(solve([fx, fy], (x, y)))},
+        {'text':"If you plug in the point into the discriminant equation and value is less than 0 it is a saddle point"},
+        {'text':"For all values greater than 0, plug into the double derivative with respect to x. If greater than 0 local minima, if it is less than 0 local maxima"},
+    ]
     for l in solve([fx, fy], (x, y)):
         thisone = D.subs(x, l[0]).subs(y, l[1])
         if thisone < 0:

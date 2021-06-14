@@ -53,9 +53,27 @@ function Discriminant() {
       {latexanswer !== null ? (
         <>
           <h1>Discriminent</h1>
+          {latexanswer.steps.discriminant.map((l) => (
+            <>
+              {"text" in l ? (
+                <p>{l.text}</p>
+              ) : (
+                <MathRenderer mathformula={l.latex} />
+              )}
+            </>
+          ))}
           <MathRenderer mathformula={latexanswer.discriminant} />
           <h1>Saddle Points</h1>
           <ul>
+            {latexanswer.steps.saddlepoints.map((l) => (
+              <>
+                {"text" in l ? (
+                  <p>{l.text}</p>
+                ) : (
+                  <MathRenderer mathformula={l.latex} />
+                )}
+              </>
+            ))}
             {latexanswer.saddlepoints.map((number) => (
               <MathRenderer mathformula={number} />
             ))}

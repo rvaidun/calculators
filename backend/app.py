@@ -29,7 +29,7 @@ def index():
 def calculator():
     print(request.json)
     if request.json['calculator'] in calcs:
-        return calcs[request.json['calculator']](request.json['data'])
+        return jsonify(calcs[request.json['calculator']](request.json['data']))
 
 
 @app.route('/calculator2', methods=['POST'])
