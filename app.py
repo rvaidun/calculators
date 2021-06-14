@@ -24,6 +24,9 @@ def divergence(matheq):
 @app.route('/derivative')
 @app.route('/partial-derivative')
 @app.route('/help')
+@app.route('/tangentplane')
+@app.route('/taylor')
+@app.route('/discriminant')
 def index():
     return app.send_static_file('index.html')
 
