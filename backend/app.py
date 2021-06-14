@@ -12,6 +12,7 @@ calcs = {'discriminant': calculatorsfuncs.saddle_min_max,
          'tangentplane': calculatorsfuncs.tangent_plane_to_graph,
          'derivative': calculatorsfuncs.derivative,
          'partial_derivative': calculatorsfuncs.partial_derivative,
+         'taylor': calculatorsfuncs.taylor,
          }
 
 

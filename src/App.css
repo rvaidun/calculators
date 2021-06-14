@@ -89,3 +89,8 @@ h2 {
   position: center;
   overflow: auto;
 }
+
+ul {
+  position: center;
+  margin-left: -5%;
+}

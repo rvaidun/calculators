@@ -58,7 +58,7 @@ function PartialDerivative() {
     return (
       <div className="standard">
         <h3>Partial Derivative</h3>
-        <input type="text" value={textboxval} onChange={eqchange} />
+        <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
         <input type="text" value={respectToBoxVal} maxLength={1} onChange={varchange} className="smallerTextBox" />
         <button onClick={sendMath}>Go</button>
         <MathRenderer mathformula={latexval}></MathRenderer>

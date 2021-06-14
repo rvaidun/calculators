@@ -3,10 +3,11 @@ import "./App.css";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
 
-function TangentPlane() {
+function Taylor() {
   const [textboxval, setTextBoxVal] = useState("");
   const [xval, setxval] = useState("");
   const [yval, setyval] = useState("");
+  const [orderval, setorder] = useState("");
   const [latexval, setLatexVal] = useState("");
   const [latexanswer, setLatexAnswer] = useState(null);
 
@@ -24,8 +25,8 @@ function TangentPlane() {
 
   const sendMath = () => {
     const data = {
-      calculator: "tangentplane",
-      data: { mathequation: textboxval, point: [xval, yval] },
+      calculator: "taylor",
+      data: { mathequation: textboxval, point: [xval, yval], order: orderval },
     };
     console.log(data);
     fetch("/calculator", {
@@ -43,7 +44,7 @@ function TangentPlane() {
   };
   return (
     <div className="standard">
-      <h3>Equation for a tangent plane</h3>
+      <h3>Taylor Polynomial</h3>
       <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
       <input
         type="number"
@@ -57,12 +58,18 @@ function TangentPlane() {
         placeholder="Y value"
         onChange={(e) => setyval(e.target.value)}
       />
+      <input
+        type="number"
+        value={orderval}
+        placeholder="Order"
+        onChange={(e) => setorder(e.target.value)}
+      />
       <button onClick={sendMath}>Go</button>
       <MathRenderer mathformula={latexval}></MathRenderer>
       {latexanswer !== null ? (
         <>
-          <h1>Equation of the Tangent Plane</h1>
-          <MathRenderer mathformula={latexanswer.answer} />
+          <h1>Taylor Polynomial</h1>
+          <MathRenderer mathformula={latexanswer} />
         </>
       ) : (
         ""
@@ -71,4 +78,4 @@ function TangentPlane() {
   );
 }
 
-export default TangentPlane;
+export default Taylor;

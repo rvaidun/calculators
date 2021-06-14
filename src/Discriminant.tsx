@@ -53,7 +53,7 @@ function Discriminant() {
         equation
       </p>
       <MathRenderer mathformula="\frac{d^{2}}{d x^{2}} f \frac{d^{2}}{d y^{2}} f - \left(\frac{d^{2}}{d yd x} f\right)^{2}" />
-      <input type="text" value={textboxval} onChange={eqchange} />
+      <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
       <button onClick={sendMath}>Go</button>
       <MathRenderer
         className="mathrenderer"

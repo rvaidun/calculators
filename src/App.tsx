@@ -8,10 +8,11 @@ import PartialDerivative from "./partial_derivative";
 import Discriminant from "./Discriminant";
 import Derivative from "./derivative";
 import TangentPlane from "./TangentPlane";
+import Taylor from "./Taylor";
 function App() {
   const HomePage = () => (
     <div className="standard">
-      <h1>Homework Helpers</h1>
+      <h1>VCalcs</h1>
       <Link to="/derivative">
         <p>Derivative Calculator</p>
       </Link>
@@ -23,6 +24,9 @@ function App() {
       </Link>
       <Link to="/tangentplane">
         <p>Tangent Plane</p>
+      </Link>
+      <Link to="/taylor">
+        <p>Taylor Polynomial</p>
       </Link>
       <Link to="/help">
         <p className="smallerText">Help?</p>
@@ -44,6 +48,7 @@ function App() {
         <Route path="/partial-derivative" component={PartialDerivative} />
         <Route path="/discriminant" component={Discriminant} />
         <Route path="/tangentplane" component={TangentPlane} />
+        <Route path="/taylor" component={Taylor} />
         <Route path="/help" component={Help} />
       </div>
     </Router>
