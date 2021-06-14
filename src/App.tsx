@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PartialDerivative from "./partial_derivative";
 import Discriminant from "./Discriminant";
 import Derivative from "./derivative";
-
+import TangentPlane from "./TangentPlane";
 function App() {
   const HomePage = () => (
     <div className="standard">
@@ -20,6 +20,9 @@ function App() {
       </Link>
       <Link to="/discriminant">
         <p>Discriminant Calculator</p>
+      </Link>
+      <Link to="/tangentplane">
+        <p>Tangent Plane</p>
       </Link>
       <Link to="/help">
         <p className="smallerText">Help?</p>
@@ -40,6 +43,7 @@ function App() {
         <Route path="/derivative" component={Derivative} />
         <Route path="/partial-derivative" component={PartialDerivative} />
         <Route path="/discriminant" component={Discriminant} />
+        <Route path="/tangentplane" component={TangentPlane} />
         <Route path="/help" component={Help} />
       </div>
     </Router>

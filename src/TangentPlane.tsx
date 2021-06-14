@@ -3,8 +3,10 @@ import "./App.css";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
 
-function Discriminant() {
+function TangentPlane() {
   const [textboxval, setTextBoxVal] = useState("");
+  const [xval, setxval] = useState("");
+  const [yval, setyval] = useState("");
   const [latexval, setLatexVal] = useState("");
   const [latexanswer, setLatexAnswer] = useState(null);
 
@@ -22,8 +24,8 @@ function Discriminant() {
 
   const sendMath = () => {
     const data = {
-      calculator: "discriminant",
-      data: { mathequation: textboxval },
+      calculator: "tangentplane",
+      data: { mathequation: textboxval, point: [xval, yval] },
     };
     console.log(data);
     fetch("/calculator", {
@@ -41,37 +43,24 @@ function Discriminant() {
   };
   return (
     <div className="standard">
-      <h3>Discriminant, Saddle Points, Local Minima and Local Maxima</h3>
-      <p>
-        The discriminant of the function f can be found using the following
-        equation
-      </p>
-      <MathRenderer mathformula="\frac{d^{2}}{d x^{2}} f \frac{d^{2}}{d y^{2}} f - \left(\frac{d^{2}}{d yd x} f\right)^{2}" />
+      <h3>Equation for a tangent plane</h3>
       <input type="text" value={textboxval} onChange={eqchange} />
+      <input
+        type="number"
+        value={xval}
+        onChange={(e) => setxval(e.target.value)}
+      />
+      <input
+        type="number"
+        value={yval}
+        onChange={(e) => setyval(e.target.value)}
+      />
       <button onClick={sendMath}>Go</button>
       <MathRenderer mathformula={latexval}></MathRenderer>
       {latexanswer !== null ? (
         <>
-          <h1>Discriminent</h1>
-          <MathRenderer mathformula={latexanswer.discriminant} />
-          <h1>Saddle Points</h1>
-          <ul>
-            {latexanswer.saddlepoints.map((number) => (
-              <MathRenderer mathformula={number} />
-            ))}
-          </ul>
-          <h1>Local Minima</h1>
-          <ul>
-            {latexanswer.min.map((number) => (
-              <MathRenderer mathformula={number} />
-            ))}
-          </ul>
-          <h1>Local Maximum</h1>
-          <ul>
-            {latexanswer.max.map((number) => (
-              <MathRenderer mathformula={number} />
-            ))}
-          </ul>
+          <h1>Equation of the Tangent Plane</h1>
+          <MathRenderer mathformula={latexanswer.answer} />
         </>
       ) : (
         ""
@@ -80,4 +69,4 @@ function Discriminant() {
   );
 }
 
-export default Discriminant;
+export default TangentPlane;
