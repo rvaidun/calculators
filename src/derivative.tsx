@@ -45,7 +45,7 @@ function Derivative() {
     return (
       <div className="standard">
         <h3>Derivative</h3>
-        <input type="text" value={textboxval} onChange={eqchange} />
+        <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
         <button onClick={sendMath}>Go</button>
         <MathRenderer mathformula={latexval}></MathRenderer>
         <MathRenderer mathformula={latexanswer}></MathRenderer>

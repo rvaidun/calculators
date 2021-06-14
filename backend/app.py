@@ -12,6 +12,7 @@ calcs = {'discriminant': calculatorsfuncs.saddle_min_max,
          'tangentplane': calculatorsfuncs.tangent_plane_to_graph,
          'derivative': calculatorsfuncs.derivative,
          'partial_derivative': calculatorsfuncs.partial_derivative,
+         'taylor': calculatorsfuncs.taylor,
          }
 
 
@@ -32,25 +33,6 @@ def calculator():
     print(request.json)
     if request.json['calculator'] in calcs:
         return jsonify(calcs[request.json['calculator']](request.json['data']))
-
-
-@app.route('/calculator2', methods=['POST'])
-def partial_derivative():
-    print(request.json)
-    respect_to_var = request.json['respectTo']
-    try:
-        respect_to_var = int(respect_to_var)
-        return jsonify("Error")
-    except ValueError:
-        print("Letter passed in")
-    x = symbols(f'{respect_to_var}')
-    if request.json['mathequation'] == "":
-        return jsonify("Empty")
-    request.json['mathequation'] = request.json['mathequation']
-    eq = parse_expr(request.json['mathequation'],
-                    transformations=transformations)
-    print(diff(eq, x))
-    return jsonify(latex(diff(eq, x)))
 
 
 if __name__ == '__main__':
