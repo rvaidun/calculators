@@ -45,9 +45,14 @@ def partial_derivative(data):
 
 
 def saddle_min_max(data):
-    x, y = symbols('x y')
+    x, y = symbols('x y', real=True)
+
     data['mathequation'] = data['mathequation']
-    f = parse_expr(data['mathequation'], transformations=transformations)
+    fTest = parse_expr(data['mathequation'], transformations=transformations)
+    print(type(fTest))
+    f = x**3+y**4-6*x-2*y**2+2
+    print(type(f))
+    print(fTest==f)
     fx = diff(f, x)
     fy = diff(f, y)
     D = diff(fx, x) * diff(fy, y) - diff(diff(f, x), y) ** 2

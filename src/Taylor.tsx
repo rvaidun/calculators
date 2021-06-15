@@ -2,6 +2,7 @@ import { MouseEventHandler, useState } from "react";
 import "./App.css";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
+import {Link} from "react-router-dom";
 
 function Taylor() {
   const [textboxval, setTextBoxVal] = useState("");
@@ -74,6 +75,9 @@ function Taylor() {
       ) : (
         ""
       )}
+      <Link to="/">
+        <p className="smallerText">Back to Home</p>
+      </Link>
     </div>
   );
 }

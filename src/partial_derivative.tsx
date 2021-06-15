@@ -4,6 +4,7 @@ import "./App.css";
 import App from "./App";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
+import {Link} from "react-router-dom";
 
 function PartialDerivative() {
   const [textboxval, setTextBoxVal] = useState("");
@@ -65,6 +66,9 @@ function PartialDerivative() {
           <p>With respect to:</p>
           <MathRenderer mathformula={respectToBoxVal}></MathRenderer>
         <MathRenderer mathformula={latexanswer}></MathRenderer>
+        <Link to="/">
+        <p className="smallerText">Back to Home</p>
+        </Link>
       </div>
     );
 }

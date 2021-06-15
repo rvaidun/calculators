@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import "./App.css";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
+import {Link} from "react-router-dom";
 
 function Discriminant() {
   const [textboxval, setTextBoxVal] = useState("");
@@ -116,7 +117,11 @@ function Discriminant() {
       ) : (
         ""
       )}
+      <Link to="/">
+        <p className="smallerText">Back to Home</p>
+      </Link>
     </div>
+
   );
 }
 
