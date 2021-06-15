@@ -1,7 +1,7 @@
 import math
 
 from sympy import *
-from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, convert_xor
+from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, convert_xor, auto_symbol
 from sympy.parsing.sympy_parser import parse_expr
 
 
@@ -15,8 +15,7 @@ def my_transformations(a, b, c):
     return result
 
 
-transformations = (
-            (my_transformations,) + standard_transformations + (implicit_multiplication_application, convert_xor))
+transformations = ((my_transformations,) + standard_transformations + (implicit_multiplication_application, convert_xor))
 
 
 # x^3+y^4-6*x-2*y^2+2
@@ -47,12 +46,11 @@ def partial_derivative(data):
 def saddle_min_max(data):
     x, y = symbols('x y', real=True)
 
-    data['mathequation'] = data['mathequation']
-    fTest = parse_expr(data['mathequation'], transformations=transformations)
-    print(type(fTest))
-    f = x**3+y**4-6*x-2*y**2+2
-    print(type(f))
-    print(fTest==f)
+    f = parse_expr(data['mathequation'], locals(),transformations=transformations)
+    # print(type(fTest))
+    # f = eval('x**3+y**4-6*x-2*y**2+2')
+    # print(type(f))
+    # print(fTest==f)
     fx = diff(f, x)
     fy = diff(f, y)
     D = diff(fx, x) * diff(fy, y) - diff(diff(f, x), y) ** 2
@@ -75,7 +73,10 @@ def saddle_min_max(data):
         {
             'text': "For all values greater than 0, plug into the double derivative with respect to x. If greater than 0 local minima, if it is less than 0 local maxima"},
     ]
-    for l in solve([fx, fy], (x, y)):
+    solved = solve([fx, fy], (x, y))
+    if isinstance(solved,dict):
+        solved = [(solved[x], solved[y])]
+    for l in solved:
         thisone = D.subs(x, l[0]).subs(y, l[1])
         if thisone < 0:
             sp.append(Tuple(l[0], l[1]))
