@@ -1,8 +1,8 @@
-import { MouseEventHandler, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function TangentPlane() {
   const [textboxval, setTextBoxVal] = useState("");
@@ -45,7 +45,17 @@ function TangentPlane() {
   return (
     <div className="standard">
       <h3>Equation for a tangent plane</h3>
-      <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
+      <p>
+        Write your equation, make sure to provide two variables ('x' and 'y'
+        otherwise other variables will be treated as constants), and an x and y
+        value.
+      </p>
+      <input
+        type="text"
+        value={textboxval}
+        placeholder="Equation"
+        onChange={eqchange}
+      />
       <input
         type="number"
         value={xval}

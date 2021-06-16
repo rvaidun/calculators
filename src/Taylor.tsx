@@ -1,8 +1,8 @@
-import { MouseEventHandler, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Taylor() {
   const [textboxval, setTextBoxVal] = useState("");
@@ -46,7 +46,16 @@ function Taylor() {
   return (
     <div className="standard">
       <h3>Taylor Polynomial</h3>
-      <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
+      <p>
+        This Taylor Polynomial calculator works for multivariable equations.
+        Make sure to use 'x' and 'y'.
+      </p>
+      <input
+        type="text"
+        value={textboxval}
+        placeholder="Equation"
+        onChange={eqchange}
+      />
       <input
         type="number"
         value={xval}

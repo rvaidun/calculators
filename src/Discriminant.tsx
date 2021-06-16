@@ -1,14 +1,14 @@
-import { MouseEventHandler, useState } from "react";
+import { useState } from "react";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 
 import "./App.css";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Discriminant() {
   const [textboxval, setTextBoxVal] = useState("");
@@ -54,7 +54,13 @@ function Discriminant() {
         equation
       </p>
       <MathRenderer mathformula="\frac{d^{2}}{d x^{2}} f \frac{d^{2}}{d y^{2}} f - \left(\frac{d^{2}}{d yd x} f\right)^{2}" />
-      <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
+      <p>Your equation must include the variables x and y. </p>
+      <input
+        type="text"
+        value={textboxval}
+        placeholder="Equation"
+        onChange={eqchange}
+      />
       <button onClick={sendMath}>Go</button>
       <MathRenderer
         className="mathrenderer"
@@ -121,7 +127,6 @@ function Discriminant() {
         <p className="smallerText">Back to Home</p>
       </Link>
     </div>
-
   );
 }
 

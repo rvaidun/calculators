@@ -1,10 +1,8 @@
-import { MouseEventHandler, useState } from "react";
-import logo from "./logo.svg";
+import { useState } from "react";
 import "./App.css";
-import App from "./App";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Derivative() {
   const [textboxval, setTextBoxVal] = useState("");
@@ -43,18 +41,28 @@ function Derivative() {
       });
   };
 
-    return (
-      <div className="standard">
-        <h3>Derivative</h3>
-        <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
-        <button onClick={sendMath}>Go</button>
-        <MathRenderer mathformula={latexval}></MathRenderer>
-        <MathRenderer mathformula={latexanswer}></MathRenderer>
-        <Link to="/">
+  return (
+    <div className="standard">
+      <h3>Derivative</h3>
+      <p>
+        Your equation must have the variable 'x' in it because any other
+        variable will be treated as a constant. Please enter your equation in
+        the textbox below
+      </p>
+      <input
+        type="text"
+        value={textboxval}
+        placeholder="Equation"
+        onChange={eqchange}
+      />
+      <button onClick={sendMath}>Go</button>
+      <MathRenderer mathformula={latexval}></MathRenderer>
+      <MathRenderer mathformula={latexanswer}></MathRenderer>
+      <Link to="/">
         <p className="smallerText">Back to Home</p>
-        </Link>
-      </div>
-    );
+      </Link>
+    </div>
+  );
 }
 
-export default Derivative
+export default Derivative;
