@@ -5,8 +5,8 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // import Typography from "@material-ui/core/Typography";
 
-import "./App.css";
-import MathRenderer from "./Components/MathRenderer";
+import "../App.css";
+import MathRenderer from "../Components/MathRenderer";
 import { parse } from "mathjs";
 import { Link } from "react-router-dom";
 

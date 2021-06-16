@@ -5,12 +5,12 @@ import "./App.css";
 // import { parse } from "mathjs";
 // Removed switch
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Derivative from "./Calculators/Derivative";
 import PartialDerivative from "./PartialDerivative";
-import Discriminant from "./Discriminant";
-import Derivative from "./Derivative";
-import TangentPlane from "./TangentPlane";
-import Constraint from "./Constraint";
-import Taylor from "./Taylor";
+import Discriminant from "./Calculators/Discriminant";
+import TangentPlane from "./Calculators/TangentPlane";
+import Taylor from "./Calculators/Taylor";
+import Constraint from "./Calculators/Constraint";
 import NavBar from "./Navbar";
 function App() {
   const HomePage = () => (
@@ -82,10 +82,13 @@ function App() {
         taking the derivative of with respect to.
       </p>
       <h3>Discriminant</h3>
-      <p>You must provide an equation that can be derived multiple times with respect to variables 'x' and 'y'.
-      Otherwise, your answer will be provided as a zero. This is because in order to find the critical points of a
-      given function, you need to be able to take second partial derivatives. This calculator also provides saddle
-      points.</p>
+      <p>
+        You must provide an equation that can be derived multiple times with
+        respect to variables 'x' and 'y'. Otherwise, your answer will be
+        provided as a zero. This is because in order to find the critical points
+        of a given function, you need to be able to take second partial
+        derivatives. This calculator also provides saddle points.
+      </p>
       <h3>Tangent Plane</h3>
       <p>
         Write your equation, make sure to provide two variables ('x' and 'y'
@@ -99,9 +102,10 @@ function App() {
       </p>
       <h3>Min and Max Subject to Constraint</h3>
       <p>
-        Provide two equations, one that will be used to find the extrema for, and one that constraints the first
-        equation. This calculator accepts all three variables 'x' 'y' and 'z' although you can choose to just use
-        'x' and 'y'.
+        Provide two equations, one that will be used to find the extrema for,
+        and one that constraints the first equation. This calculator accepts all
+        three variables 'x' 'y' and 'z' although you can choose to just use 'x'
+        and 'y'.
       </p>
     </div>
   );

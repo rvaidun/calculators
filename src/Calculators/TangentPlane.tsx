@@ -1,14 +1,13 @@
 import { useState } from "react";
-import "./App.css";
-import MathRenderer from "./Components/MathRenderer";
+import "../App.css";
+import MathRenderer from "../Components/MathRenderer";
 import { parse } from "mathjs";
 import { Link } from "react-router-dom";
 
-function Taylor() {
+function TangentPlane() {
   const [textboxval, setTextBoxVal] = useState("");
   const [xval, setxval] = useState("");
   const [yval, setyval] = useState("");
-  const [orderval, setorder] = useState("");
   const [latexval, setLatexVal] = useState("");
   const [latexanswer, setLatexAnswer] = useState(null);
 
@@ -26,8 +25,8 @@ function Taylor() {
 
   const sendMath = () => {
     const data = {
-      calculator: "taylor",
-      data: { mathequation: textboxval, point: [xval, yval], order: orderval },
+      calculator: "tangentplane",
+      data: { mathequation: textboxval, point: [xval, yval] },
     };
     console.log(data);
     fetch("/calculator", {
@@ -45,10 +44,11 @@ function Taylor() {
   };
   return (
     <div className="standard">
-      <h3>Taylor Polynomial</h3>
+      <h3>Equation for a tangent plane</h3>
       <p>
-        This Taylor Polynomial calculator works for multivariable equations.
-        Make sure to use 'x' and 'y'.
+        Write your equation, make sure to provide two variables ('x' and 'y'
+        otherwise other variables will be treated as constants), and an x and y
+        value.
       </p>
       <input
         type="text"
@@ -68,18 +68,12 @@ function Taylor() {
         placeholder="Y value"
         onChange={(e) => setyval(e.target.value)}
       />
-      <input
-        type="number"
-        value={orderval}
-        placeholder="Order"
-        onChange={(e) => setorder(e.target.value)}
-      />
       <button onClick={sendMath}>Go</button>
       <MathRenderer mathformula={latexval}></MathRenderer>
       {latexanswer !== null ? (
         <>
-          <h1>Taylor Polynomial</h1>
-          <MathRenderer mathformula={latexanswer} />
+          <h1>Equation of the Tangent Plane</h1>
+          <MathRenderer mathformula={latexanswer.answer} />
         </>
       ) : (
         ""
@@ -91,4 +85,4 @@ function Taylor() {
   );
 }
 
-export default Taylor;
+export default TangentPlane;

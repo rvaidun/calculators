@@ -167,7 +167,13 @@ def taylor(data):
 def constraint(data):
     x, y, z, a = symbols('x y z a')
     f = parse_expr(data['mathequation'], transformations=transformations)
-    expr = parse_expr(data['constraint'], transformations=transformations)
+    if '=' in data['constraint']:
+        exprs = data['constraint'].split('=')
+        expr = parse_expr(exprs[0], transformations=transformations)
+        expr1 = parse_expr(exprs[1], transformations=transformations)
+        expr = expr - expr1
+    else:
+        expr = parse_expr(data['constraint'], transformations=transformations)
     if z in f.free_symbols:
         x, y, z, a = symbols('x y z a')
 
