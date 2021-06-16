@@ -5,10 +5,11 @@ import "./App.css";
 // import { parse } from "mathjs";
 // Removed switch
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import PartialDerivative from "./partial_derivative";
+import PartialDerivative from "./PartialDerivative";
 import Discriminant from "./Discriminant";
-import Derivative from "./derivative";
+import Derivative from "./Derivative";
 import TangentPlane from "./TangentPlane";
+import Constraint from "./Constraint";
 import Taylor from "./Taylor";
 import NavBar from "./Navbar";
 function App() {
@@ -39,19 +40,22 @@ function App() {
       </div>
       <div className="standard">
         <Link to="/derivative">
-          <p>Derivative Calculator</p>
+          <p>Derivative</p>
         </Link>
         <Link to="/partial-derivative">
-          <p>Partial Derivative Calculator</p>
+          <p>Partial Derivative</p>
         </Link>
         <Link to="/discriminant">
-          <p>Discriminant Calculator</p>
+          <p>Discriminant</p>
         </Link>
         <Link to="/tangentplane">
           <p>Tangent Plane</p>
         </Link>
         <Link to="/taylor">
           <p>Taylor Polynomial</p>
+        </Link>
+        <Link to="/constraint">
+          <p>Min and Max Subject to Constraint</p>
         </Link>
         <Link to="/help">
           <p className="smallerText">Help</p>
@@ -78,7 +82,10 @@ function App() {
         taking the derivative of with respect to.
       </p>
       <h3>Discriminant</h3>
-      <p>Your equation must include.</p>
+      <p>You must provide an equation that can be derived multiple times with respect to variables 'x' and 'y'.
+      Otherwise, your answer will be provided as a zero. This is because in order to find the critical points of a
+      given function, you need to be able to take second partial derivatives. This calculator also provides saddle
+      points.</p>
       <h3>Tangent Plane</h3>
       <p>
         Write your equation, make sure to provide two variables ('x' and 'y'
@@ -89,6 +96,12 @@ function App() {
       <p>
         This Taylor Polynomial calculator works for multivariable equations.
         Make sure to use 'x' and 'y'.
+      </p>
+      <h3>Min and Max Subject to Constraint</h3>
+      <p>
+        Provide two equations, one that will be used to find the extrema for, and one that constraints the first
+        equation. This calculator accepts all three variables 'x' 'y' and 'z' although you can choose to just use
+        'x' and 'y'.
       </p>
     </div>
   );
@@ -103,6 +116,7 @@ function App() {
         <Route path="/discriminant" component={Discriminant} />
         <Route path="/tangentplane" component={TangentPlane} />
         <Route path="/taylor" component={Taylor} />
+        <Route path="/constraint" component={Constraint} />
         <Route path="/help" component={Help} />
       </div>
     </Router>
