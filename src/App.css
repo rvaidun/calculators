@@ -133,6 +133,11 @@ a {
   /* font-style: italic; */
 }
 
-a:active {
-  color: blue;
+.navbarvcalcs {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navbarvcalcs:hover {
+  color: greenyellow;
 }
