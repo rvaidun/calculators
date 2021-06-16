@@ -1,9 +1,8 @@
-import { MouseEventHandler, useState } from "react";
-import logo from "./logo.svg";
+import { useState } from "react";
 import "./App.css";
-import App from "./App";
 import MathRenderer from "./Components/MathRenderer";
 import { parse } from "mathjs";
+import { Link } from "react-router-dom";
 
 function PartialDerivative() {
   const [textboxval, setTextBoxVal] = useState("");
@@ -37,8 +36,7 @@ function PartialDerivative() {
   const sendMath = () => {
     const data = {
       calculator: "partial_derivative",
-      data: { mathequation: textboxval , respectTo: respectToBoxVal},
-
+      data: { mathequation: textboxval, respectTo: respectToBoxVal },
     };
     console.log(data);
     fetch("/calculator", {
@@ -55,18 +53,36 @@ function PartialDerivative() {
       });
   };
 
-    return (
-      <div className="standard">
-        <h3>Partial Derivative</h3>
-        <input type="text" value={textboxval} placeholder="Equation" onChange={eqchange} />
-        <input type="text" value={respectToBoxVal} maxLength={1} onChange={varchange} className="smallerTextBox" />
-        <button onClick={sendMath}>Go</button>
-        <MathRenderer mathformula={latexval}></MathRenderer>
-          <p>With respect to:</p>
-          <MathRenderer mathformula={respectToBoxVal}></MathRenderer>
-        <MathRenderer mathformula={latexanswer}></MathRenderer>
-      </div>
-    );
+  return (
+    <div className="standard">
+      <h3>Partial Derivative</h3>
+      <p>
+        Write your equation and make sure to include which variable you are
+        taking the derivative of with respect to.
+      </p>
+      <input
+        type="text"
+        value={textboxval}
+        placeholder="Equation"
+        onChange={eqchange}
+      />
+      <input
+        type="text"
+        value={respectToBoxVal}
+        maxLength={1}
+        onChange={varchange}
+        className="smallerTextBox"
+      />
+      <button onClick={sendMath}>Go</button>
+      <MathRenderer mathformula={latexval}></MathRenderer>
+      <p>With respect to:</p>
+      <MathRenderer mathformula={respectToBoxVal}></MathRenderer>
+      <MathRenderer mathformula={latexanswer}></MathRenderer>
+      <Link to="/">
+        <p className="smallerText">Back to Home</p>
+      </Link>
+    </div>
+  );
 }
 
 export default PartialDerivative;
