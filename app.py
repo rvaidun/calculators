@@ -13,6 +13,7 @@ calcs = {'discriminant': calculatorsfuncs.saddle_min_max,
          'derivative': calculatorsfuncs.derivative,
          'partial_derivative': calculatorsfuncs.partial_derivative,
          'taylor': calculatorsfuncs.taylor,
+         'constraint': calculatorsfuncs.constraint,
          }
 
 
@@ -27,6 +28,7 @@ def divergence(matheq):
 @app.route('/tangentplane')
 @app.route('/taylor')
 @app.route('/discriminant')
+@app.route('/constraint')
 def index():
     return app.send_static_file('index.html')
 

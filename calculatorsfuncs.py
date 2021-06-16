@@ -1,7 +1,7 @@
 import math
 
 from sympy import *
-from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, convert_xor
+from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, convert_xor, auto_symbol
 from sympy.parsing.sympy_parser import parse_expr
 
 
@@ -15,8 +15,7 @@ def my_transformations(a, b, c):
     return result
 
 
-transformations = (
-            (my_transformations,) + standard_transformations + (implicit_multiplication_application, convert_xor))
+transformations = ((my_transformations,) + standard_transformations + (implicit_multiplication_application, convert_xor))
 
 
 # x^3+y^4-6*x-2*y^2+2
@@ -45,9 +44,13 @@ def partial_derivative(data):
 
 
 def saddle_min_max(data):
-    x, y = symbols('x y')
-    data['mathequation'] = data['mathequation']
-    f = parse_expr(data['mathequation'], transformations=transformations)
+    x, y = symbols('x y', real=True)
+
+    f = parse_expr(data['mathequation'], locals(),transformations=transformations)
+    # print(type(fTest))
+    # f = eval('x**3+y**4-6*x-2*y**2+2')
+    # print(type(f))
+    # print(fTest==f)
     fx = diff(f, x)
     fy = diff(f, y)
     D = diff(fx, x) * diff(fy, y) - diff(diff(f, x), y) ** 2
@@ -70,7 +73,10 @@ def saddle_min_max(data):
         {
             'text': "For all values greater than 0, plug into the double derivative with respect to x. If greater than 0 local minima, if it is less than 0 local maxima"},
     ]
-    for l in solve([fx, fy], (x, y)):
+    solved = solve([fx, fy], (x, y))
+    if isinstance(solved,dict):
+        solved = [(solved[x], solved[y])]
+    for l in solved:
         thisone = D.subs(x, l[0]).subs(y, l[1])
         if thisone < 0:
             sp.append(Tuple(l[0], l[1]))
@@ -152,4 +158,40 @@ def taylor(data):
     print(mu)
     print(type(order))
     ans = mtaylor(f, vars, mu, order=order)
+    print(ans)
     return latex(ans)
+
+
+# 5x + 6y + 2z
+# x^2 + 6y^2 + 3z^2 - 1
+def constraint(data):
+    x, y, z, a = symbols('x y z a')
+    f = parse_expr(data['mathequation'], transformations=transformations)
+    if '=' in data['constraint']:
+        exprs = data['constraint'].split('=')
+        expr = parse_expr(exprs[0], transformations=transformations)
+        expr1 = parse_expr(exprs[1], transformations=transformations)
+        expr = expr - expr1
+    else:
+        expr = parse_expr(data['constraint'], transformations=transformations)
+    if z in f.free_symbols:
+        x, y, z, a = symbols('x y z a')
+
+        x1 = solve(diff(expr, x) * a - diff(f, x), x)[0]
+        y1 = solve(diff(expr, y) * a - diff(f, y), y)[0]
+        z1 = solve(diff(expr, z) * a - diff(f, z), z)[0]
+        expr1 = expr.subs(x, x1).subs(y, y1).subs(z, z1)
+        lamdas = solve(expr1, a)[0]
+
+        xs = x1.subs(a, lamdas)
+        ys = y1.subs(a, lamdas)
+        zs = z1.subs(a, lamdas)
+
+        f.subs(x, xs).subs(y, ys).subs(z, zs)
+        return [latex(f.subs(x, xs).subs(y, ys).subs(z, zs)), latex(-f.subs(x, xs).subs(y, ys).subs(z, zs))]
+    fans = f.subs(x, solve(expr, x)[0])
+    yans = solve(diff(fans, y), y)
+    ret = []
+    ret.append(latex(fans.subs(y, yans[0])))
+    ret.append(latex(fans.subs(y, yans[1])))
+    return ret
