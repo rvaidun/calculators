@@ -58,17 +58,20 @@ function PartialDerivative() {
       <h3>Partial Derivative</h3>
       <p>
         Write your equation and make sure to include which variable you are
-        taking the derivative of with respect to.
+        taking the derivative of with respect to. <i>f</i> refers to the inputted equation. <i>?</i> refers to
+        the variable you are taking the derivative of with respect to.
       </p>
+      <MathRenderer mathformula="\frac{df}{d ?} (f)" />
       <input
         type="text"
         value={textboxval}
-        placeholder="Equation"
+        placeholder="Equation f"
         onChange={eqchange}
       />
       <input
         type="text"
         value={respectToBoxVal}
+        placeholder="?"
         maxLength={1}
         onChange={varchange}
         className="smallerTextBox"

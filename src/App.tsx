@@ -60,7 +60,7 @@ function App() {
         <Link to="/help">
           <p className="smallerText">Help</p>
         </Link>
-        <Link to="/help">
+        <Link to="/donate">
           <p className="smallerText">Donate</p>
         </Link>
       </div>
@@ -79,7 +79,8 @@ function App() {
       <h3>Partial Derivative</h3>
       <p>
         Write your equation and make sure to include which variable you are
-        taking the derivative of with respect to.
+        taking the derivative of with respect to. <i>f</i> refers to the inputted equation. <i>?</i> refers to
+        the variable you are taking the derivative of with respect to.
       </p>
       <h3>Discriminant</h3>
       <p>
@@ -87,27 +88,31 @@ function App() {
         respect to variables 'x' and 'y'. Otherwise, your answer will be
         provided as a zero. This is because in order to find the critical points
         of a given function, you need to be able to take second partial
-        derivatives. This calculator also provides saddle points.
+        derivatives.
       </p>
       <h3>Tangent Plane</h3>
       <p>
-        Write your equation, make sure to provide two variables ('x' and 'y'
-        otherwise other variables will be treated as constants), and an x and y
-        value.
+        This calculator finds the equation for a tangent plane to the graph of f(x, y) (your input) at a given point
+        (also your input). Make sure to use variables 'x' and 'y' and include a valid x and y value for the point.
       </p>
       <h3>Taylor Polynomial</h3>
       <p>
         This Taylor Polynomial calculator works for multivariable equations.
-        Make sure to use 'x' and 'y'.
+        Your input can be f(x, y) or just f(x).
       </p>
       <h3>Min and Max Subject to Constraint</h3>
       <p>
-        Provide two equations, one that will be used to find the extrema for,
+        Provide two equations, one that will be used to find extrema for,
         and one that constraints the first equation. This calculator accepts all
-        three variables 'x' 'y' and 'z' although you can choose to just use 'x'
+        three variables 'x' 'y' and 'z' although you can choose to use only 'x'
         and 'y'.
       </p>
     </div>
+  );
+
+  const Donate = () => (
+      <h3>If you have found this calculator to be useful to you and would like to see it expand, consider
+      donating. You are not obligated to do so.</h3>
   );
 
   return (
@@ -122,6 +127,7 @@ function App() {
         <Route path="/taylor" component={Taylor} />
         <Route path="/constraint" component={Constraint} />
         <Route path="/help" component={Help} />
+        <Route path="/donate" component={Donate} />
       </div>
     </Router>
   );
