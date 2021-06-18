@@ -64,14 +64,11 @@ input {
   height: 30px;
 }
 
-h3 {
+h2,h3{
   color: blue;
   font-family: Arial, serif;
 }
-h2 {
-  color: red;
-  font-family: Arial, serif;
-}
+
 h1 {
   font-family: Arial, serif;
 }
@@ -164,4 +161,16 @@ a:visited {
 
 .moveup{
   margin-bottom: -30px;
+}
+
+.imagebackground{
+  /*background-image: url("favicon3.png"); was just testing different sizes here. you can delete the favicon.png files
+  if you want*/
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.donationborder{
+  width: 200px;
+  height: 70px;
 }

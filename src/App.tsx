@@ -15,54 +15,56 @@ import NavBar from "./Navbar";
 function App() {
   const HomePage = () => (
     <>
-      <div className="welcome">
-        <h1>Welcome to vcalcs!</h1>
-        <p>
-          This website is dedicated to building custom niche math calculators
-          for students to use. Currently all our calculators are for common
-          vector calculus problems but we plan to expand our calculators to more
-          areas of math as well.
-        </p>
-        <p>
-          All our calculators were built using the Sympy math library. Sympy is
-          a great data science tool that allows you to do complex calculus
-          equations easily through python. We are able to parse the equations
-          that are sent to sympy through Sympy's built in parser. The front end
-          web application is built with React Typescript. To display all the
-          math equations we are using MathJax, a library to display math
-          equations in the browser
-        </p>
-        <p>
-          You can find a full list of our calculators in the box below. For more
-          instructions on how to use all the calculators please visit our{" "}
-          <Link to="/help">help</Link> section.
-        </p>
-      </div>
-      <div className="standard">
-        <Link to="/derivative">
-          <p>Derivative</p>
-        </Link>
-        <Link to="/partial-derivative">
-          <p>Partial Derivative</p>
-        </Link>
-        <Link to="/discriminant">
-          <p>Discriminant</p>
-        </Link>
-        <Link to="/tangentplane">
-          <p>Tangent Plane</p>
-        </Link>
-        <Link to="/taylor">
-          <p>Taylor Polynomial</p>
-        </Link>
-        <Link to="/constraint">
-          <p>Min and Max Subject to Constraint</p>
-        </Link>
-        <Link to="/help">
-          <p className="smallerText">Help</p>
-        </Link>
-        <Link to="/donate">
-          <p className="smallerText">Donate</p>
-        </Link>
+      <div className="imagebackground">
+          <div className="welcome">
+            <h1>Welcome to vcalcs!</h1>
+            <p>
+              This website is dedicated to building custom niche math calculators
+              for students to use. Currently all our calculators are for common
+              vector calculus problems but we plan to expand our calculators to more
+              areas of math as well.
+            </p>
+            <p>
+              All our calculators were built using the Sympy math library. Sympy is
+              a great data science tool that allows you to do complex calculus
+              equations easily through python. We are able to parse the equations
+              that are sent to sympy through Sympy's built in parser. The front end
+              web application is built with React Typescript. To display all the
+              math equations we are using MathJax, a library to display math
+              equations in the browser
+            </p>
+            <p>
+              You can find a full list of our calculators in the box below. For more
+              instructions on how to use all the calculators please visit our{" "}
+              <Link to="/help">help</Link> section.
+            </p>
+          </div>
+          <div className="standard">
+            <Link to="/derivative">
+              <p>Derivative</p>
+            </Link>
+            <Link to="/partial-derivative">
+              <p>Partial Derivative</p>
+            </Link>
+            <Link to="/discriminant">
+              <p>Discriminant</p>
+            </Link>
+            <Link to="/tangentplane">
+              <p>Tangent Plane</p>
+            </Link>
+            <Link to="/taylor">
+              <p>Taylor Polynomial</p>
+            </Link>
+            <Link to="/constraint">
+              <p>Min and Max Subject to Constraint</p>
+            </Link>
+            <Link to="/help">
+              <p className="smallerText">Help</p>
+            </Link>
+            <Link to="/donate">
+              <p className="smallerText">Donate</p>
+            </Link>
+          </div>
       </div>
     </>
   );
@@ -111,8 +113,19 @@ function App() {
   );
 
   const Donate = () => (
-      <h3>If you have found this calculator to be useful to you and would like to see it expand, consider
-      donating. You are not obligated to do so.</h3>
+      <div className="standard">
+        <h3>If you would like to see more calculators and improvements for the current ones, consider donating. You can
+          support this website with just $1. If you choose to donate you can send us an email and request a calculator
+          be made. We will try our best to fulfill these requests.</h3>
+        <form action="https://www.paypal.com/donate" method="post" target="_top">
+        <input type="hidden" name="business" value="WHA5JTF556R44" />
+        <input type="hidden" name="no_recurring" value="0" />
+        <input type="hidden" name="currency_code" value="USD" />
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" className="donationborder" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+        <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" className="donationborder" width="1" height="1" />
+        </form>
+        <h2>Thank you!</h2>
+      </div>
   );
 
   return (
