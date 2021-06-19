@@ -47,12 +47,13 @@ function Derivative() {
       <p>
         Your equation must have the variable 'x' in it because any other
         variable will be treated as a constant. Please enter your equation in
-        the textbox below
+        the textbox below.
       </p>
+      <MathRenderer mathformula="\frac{d}{d x} f" />
       <input
         type="text"
         value={textboxval}
-        placeholder="Equation"
+        placeholder="Equation f"
         onChange={eqchange}
       />
       <button onClick={sendMath}>Go</button>

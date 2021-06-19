@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(3),
     },
     title: {
       flexGrow: 1,
@@ -36,6 +36,11 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
             <Link to="/" className="navbarvcalcs">
               Vcalcs
+            </Link>
+          </Typography>
+          <Typography variant="caption" className={classes.menuButton}>
+            <Link to="/donate" className="navbarvcalcs">
+              Donate
             </Link>
           </Typography>
           {/* <Button color="inherit">Login</Button> */}

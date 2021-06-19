@@ -46,14 +46,24 @@ function TangentPlane() {
     <div className="standard">
       <h3>Equation for a tangent plane</h3>
       <p>
-        Write your equation, make sure to provide two variables ('x' and 'y'
-        otherwise other variables will be treated as constants), and an x and y
-        value.
+        This calculator finds the equation for a tangent plane to the graph of f(x, y) (your input) at a given point
+        (also your input). Make sure to use variables 'x' and 'y' and include a valid x and y value for the point.
       </p>
+      <p>
+        This is done by taking the partial derivative of f(x, y) with respect to variables x and y separately, then
+        plugging in the given point for each partial derivative. Then, f(x, y) is evaluated at the given point
+        and the tangent plane is constructed.
+      </p>
+        <div className="sidebyside">
+            <MathRenderer className="sidebyside" mathformula="\frac{df}{d x}" />
+            &nbsp;&nbsp;
+            <MathRenderer className="sidebyside2" mathformula="\frac{df}{d y}" />
+        </div>
+        <br></br>
       <input
         type="text"
         value={textboxval}
-        placeholder="Equation"
+        placeholder="Equation f(x, y)"
         onChange={eqchange}
       />
       <input

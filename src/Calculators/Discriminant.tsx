@@ -50,15 +50,15 @@ function Discriminant() {
     <div className="standard">
       <h3>Discriminant, Saddle Points, Local Minima and Local Maxima</h3>
       <p>
-        The discriminant of the function f can be found using the following
-        equation
+        The discriminant of the function f(x, y) can be found using the following
+        equation.
       </p>
       <MathRenderer mathformula="\frac{d^{2}}{d x^{2}} f \frac{d^{2}}{d y^{2}} f - \left(\frac{d^{2}}{d yd x} f\right)^{2}" />
       <p>Your equation must include the variables x and y. </p>
       <input
         type="text"
         value={textboxval}
-        placeholder="Equation"
+        placeholder="Equation f(x, y)"
         onChange={eqchange}
       />
       <button onClick={sendMath}>Go</button>

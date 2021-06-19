@@ -57,21 +57,25 @@ function Constraint() {
     <div className="standard">
       <h3>Min and Max Subject to Constraint</h3>
       <p>
-        Provide two equations, one that will be used to find the extrema for,
+        Provide two equations, one that will be used to find extrema for,
         and one that constraints the first equation. This calculator accepts all
-        three variables 'x' 'y' and 'z' although you can choose to just use 'x'
+        three variables 'x' 'y' and 'z' although you can choose to use only 'x'
         and 'y'.
       </p>
+      <p>
+        This can be done without a calculator by using the Lagrange equations.
+      </p>
+        <MathRenderer mathformula="\nabla f=\lambda\nabla g"></MathRenderer>
       <input
         type="text"
         value={textboxval}
-        placeholder="Equation"
+        placeholder="Equation f"
         onChange={eqchange}
       />
       <input
         type="text"
         value={constraintVal}
-        placeholder="Constraint"
+        placeholder="Constraint g"
         onChange={varchange}
       />
       <button onClick={sendMath}>Go</button>

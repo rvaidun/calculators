@@ -47,9 +47,20 @@ function Taylor() {
     <div className="standard">
       <h3>Taylor Polynomial</h3>
       <p>
-        This Taylor Polynomial calculator works for multivariable equations.
-        Make sure to use 'x' and 'y'.
+        This Taylor Polynomial calculator works for multivariable equations. Your input can be f(x, y) or just f(x).
+        The Taylor Polynomial can be found using this formula:
       </p>
+        <div className="sidebyside2">
+            <div className="moveup">
+                <MathRenderer mathformula="T_{1}(x, y)=f(x_{0},y_{0})+f_{x}(x_{0},y_{0})(x-x_{0})+f_{y}(x_{0},y_{0})(y-y_{0}) \\"></MathRenderer>
+            </div>
+            <div className="moveup">
+                <MathRenderer mathformula="T_{2}(x, y)=f(x_{0},y_{0})+f_{x}(x_{0},y_{0})(x-x_{0})+f_{y}(x_{0},y_{0})(y-y_{0})+
+                \frac{f_{xx}(x_{0},y_{0})}{2}(x-x_{0})^{2}\\+\frac{f_{yy}(x_{0},y_{0})}{2}(y-y_{0})^{2} +f_{xy}(x_{0},y_{0})
+                (x-x_{0})(y - y_{0}) \\"></MathRenderer>
+            </div>
+        </div>
+        <p>This calculator can accept orders above 2.</p>
       <input
         type="text"
         value={textboxval}
@@ -76,6 +87,16 @@ function Taylor() {
       />
       <button onClick={sendMath}>Go</button>
       <MathRenderer mathformula={latexval}></MathRenderer>
+      <p>
+          Centered on point: &nbsp;
+          <div className="sidebyside">
+              <p className="parentheses">(</p>
+            <MathRenderer mathformula={xval}></MathRenderer>
+            <p className="comma">,</p>
+            <MathRenderer mathformula={yval}></MathRenderer>
+              <p className="parentheses">)</p>
+          </div>
+      </p>
       {latexanswer !== null ? (
         <>
           <h1>Taylor Polynomial</h1>
