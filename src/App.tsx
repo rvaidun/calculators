@@ -143,11 +143,6 @@ function App() {
   return (
     <Router>
       <NavBar />
-      <script
-        data-cfasync="false"
-        type="text/javascript"
-        src="https://www.linkonclick.com/a/display.php?r=4686119"
-      ></script>
       <div className="App">
         <Route path="/" exact component={HomePage} />
         <Route path="/derivative" component={Derivative} />
