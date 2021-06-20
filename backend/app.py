@@ -14,6 +14,7 @@ calcs = {'discriminant': calculatorsfuncs.saddle_min_max,
          'partial_derivative': calculatorsfuncs.partial_derivative,
          'taylor': calculatorsfuncs.taylor,
          'constraint': calculatorsfuncs.constraint,
+         'divcurl': calculatorsfuncs.divcurl,
          }
 
 
@@ -21,15 +22,19 @@ def divergence(matheq):
     x, y, z = symbols('x y z')
 
 
-@app.route('/', methods=['GET'])
-@app.route('/derivative')
-@app.route('/partial-derivative')
-@app.route('/help')
-@app.route('/tangentplane')
-@app.route('/taylor')
-@app.route('/discriminant')
-@app.route('/constraint')
-def index():
+# @app.route('/', methods=['GET'])
+# @app.route('/derivative')
+# @app.route('/partial-derivative')
+# @app.route('/help')
+# @app.route('/tangentplane')
+# @app.route('/taylor')
+# @app.route('/discriminant')
+# @app.route('/constraint')
+# @app.route('/donate')
+# @app.route('/divcurl')
+@app.route('/', defaults={'path': ''}, methods=['GET'])
+@app.route('/<path:path>')
+def index(path):
     return app.send_static_file('index.html')
 
 

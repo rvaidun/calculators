@@ -6,11 +6,12 @@ import "./App.css";
 // Removed switch
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Derivative from "./Calculators/Derivative";
-import PartialDerivative from "./PartialDerivative";
+import PartialDerivative from "./Calculators/PartialDerivative";
 import Discriminant from "./Calculators/Discriminant";
 import TangentPlane from "./Calculators/TangentPlane";
 import Taylor from "./Calculators/Taylor";
 import Constraint from "./Calculators/Constraint";
+import DivCurl from "./Calculators/DivCurl";
 import NavBar from "./Navbar";
 function App() {
   const HomePage = () => (
@@ -57,6 +58,9 @@ function App() {
             </Link>
             <Link to="/constraint">
               <p>Min and Max Subject to Constraint</p>
+            </Link>
+            <Link to="/divcurl">
+              <p>Divergence and Curl</p>
             </Link>
             <Link to="/help">
               <p className="smallerText">Help</p>
@@ -122,8 +126,8 @@ function App() {
         <input type="hidden" name="no_recurring" value="0" />
         <input type="hidden" name="currency_code" value="USD" />
         <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" className="donationborder" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-        <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" className="donationborder" width="1" height="1" />
         </form>
+          <h4>vectorcalcs@gmail.com</h4>
         <h2>Thank you!</h2>
       </div>
   );
@@ -139,6 +143,7 @@ function App() {
         <Route path="/tangentplane" component={TangentPlane} />
         <Route path="/taylor" component={Taylor} />
         <Route path="/constraint" component={Constraint} />
+        <Route path="/divcurl" component={DivCurl} />
         <Route path="/help" component={Help} />
         <Route path="/donate" component={Donate} />
       </div>
