@@ -113,6 +113,11 @@ function App() {
         three variables 'x' 'y' and 'z' although you can choose to use only 'x'
         and 'y'.
       </p>
+      <h3>Divergence and Curl</h3>
+      <p>
+        This Divergence and Curl calculator must take in a 3D function <i>f</i>. The calculator takes in
+        vector components i, j, and k. If i, j, or k are 0 please write 0 instead of leaving it empty.
+      </p>
     </div>
   );
 
