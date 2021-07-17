@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "./App.css";
-import MathRenderer from "./Components/MathRenderer";
+import "../App.css";
+import MathRenderer from "../Components/MathRenderer";
 import { parse } from "mathjs";
 import { Link } from "react-router-dom";
 
