@@ -1,56 +1,19 @@
 import { useState } from "react";
 import "../App.css";
 import MathRenderer from "../Components/MathRenderer";
-import { parse } from "mathjs";
 import { Link } from "react-router-dom";
+import { useCalculator } from "../hooks/useCalculator";
+import { useLatexPreview } from "../hooks/useLatexPreview";
 
 function PartialDerivative() {
   const [textboxval, setTextBoxVal] = useState("");
-  const [latexval, setLatexVal] = useState("");
-  const [latexanswer, setLatexAnswer] = useState("");
-  const [respectToBoxVal, setrespectToBoxVal] = useState("");
+  const [respectToBoxVal, setRespectToBoxVal] = useState("");
+  const { latexPreview, updatePreview } = useLatexPreview();
+  const { result, error, isLoading, calculate } = useCalculator<string>("partial_derivative");
 
-  const eqchange = (e: any) => {
+  const eqchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextBoxVal(e.target.value);
-    let blockinline: string;
-    try {
-      blockinline = parse(e.target.value).toTex();
-      console.log(blockinline);
-    } catch {
-      blockinline = parse(`Not a valid input`).toTex();
-    }
-    setLatexVal(blockinline);
-  };
-
-  const varchange = (e: any) => {
-    setrespectToBoxVal(e.target.value);
-    let blockinline: string;
-    try {
-      blockinline = parse(e.target.value).toTex();
-      console.log(blockinline);
-    } catch {
-      blockinline = parse(`Not a valid input`).toTex();
-    }
-  };
-
-  const sendMath = () => {
-    const data = {
-      calculator: "partial_derivative",
-      data: { mathequation: textboxval, respectTo: respectToBoxVal },
-    };
-    console.log(data);
-    fetch("/calculator", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLatexAnswer(data);
-        console.log(data);
-      });
+    updatePreview(e.target.value);
   };
 
   return (
@@ -73,14 +36,20 @@ function PartialDerivative() {
         value={respectToBoxVal}
         placeholder="?"
         maxLength={1}
-        onChange={varchange}
+        onChange={(e) => setRespectToBoxVal(e.target.value)}
         className="smallerTextBox"
       />
-      <button onClick={sendMath}>Go</button>
-      <MathRenderer mathformula={latexval}></MathRenderer>
+      <button
+        onClick={() => calculate({ mathequation: textboxval, respectTo: respectToBoxVal })}
+        disabled={isLoading}
+      >
+        {isLoading ? "Calculating..." : "Go"}
+      </button>
+      <MathRenderer mathformula={latexPreview} />
       <p>With respect to:</p>
-      <MathRenderer mathformula={respectToBoxVal}></MathRenderer>
-      <MathRenderer mathformula={latexanswer}></MathRenderer>
+      <MathRenderer mathformula={respectToBoxVal} />
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {result !== null && <MathRenderer mathformula={result} />}
       <Link to="/">
         <p className="smallerText">Back to Home</p>
       </Link>

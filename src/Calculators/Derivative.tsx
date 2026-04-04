@@ -1,44 +1,18 @@
 import { useState } from "react";
 import "../App.css";
 import MathRenderer from "../Components/MathRenderer";
-import { parse } from "mathjs";
 import { Link } from "react-router-dom";
+import { useCalculator } from "../hooks/useCalculator";
+import { useLatexPreview } from "../hooks/useLatexPreview";
 
 function Derivative() {
   const [textboxval, setTextBoxVal] = useState("");
-  const [latexval, setLatexVal] = useState("");
-  const [latexanswer, setLatexAnswer] = useState("");
+  const { latexPreview, updatePreview } = useLatexPreview();
+  const { result, error, isLoading, calculate } = useCalculator<string>("derivative");
 
-  const eqchange = (e: any) => {
+  const eqchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextBoxVal(e.target.value);
-    let blockinline: string;
-    try {
-      blockinline = parse(e.target.value).toTex();
-      console.log(blockinline);
-    } catch {
-      blockinline = parse(`Not a valid input`).toTex();
-    }
-    setLatexVal(blockinline);
-  };
-
-  const sendMath = () => {
-    const data = {
-      calculator: "derivative",
-      data: { mathequation: textboxval },
-    };
-    console.log(data);
-    fetch("/calculator", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLatexAnswer(data);
-        console.log(data);
-      });
+    updatePreview(e.target.value);
   };
 
   return (
@@ -56,9 +30,12 @@ function Derivative() {
         placeholder="Equation f"
         onChange={eqchange}
       />
-      <button onClick={sendMath}>Go</button>
-      <MathRenderer mathformula={latexval}></MathRenderer>
-      <MathRenderer mathformula={latexanswer}></MathRenderer>
+      <button onClick={() => calculate({ mathequation: textboxval })} disabled={isLoading}>
+        {isLoading ? "Calculating..." : "Go"}
+      </button>
+      <MathRenderer mathformula={latexPreview} />
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {result !== null && <MathRenderer mathformula={result} />}
       <Link to="/">
         <p className="smallerText">Back to Home</p>
       </Link>

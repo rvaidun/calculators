@@ -1,48 +1,23 @@
 import { useState } from "react";
 import "../App.css";
 import MathRenderer from "../Components/MathRenderer";
-import { parse } from "mathjs";
 import { Link } from "react-router-dom";
+import { useCalculator } from "../hooks/useCalculator";
+import { useLatexPreview } from "../hooks/useLatexPreview";
 
 function Taylor() {
   const [textboxval, setTextBoxVal] = useState("");
   const [xval, setxval] = useState("");
   const [yval, setyval] = useState("");
   const [orderval, setorder] = useState("");
-  const [latexval, setLatexVal] = useState("");
-  const [latexanswer, setLatexAnswer] = useState(null);
+  const { latexPreview, updatePreview } = useLatexPreview();
+  const { result, error, isLoading, calculate } = useCalculator<string>("taylor");
 
-  const eqchange = (e: any) => {
+  const eqchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextBoxVal(e.target.value);
-    let blockinline: string;
-    try {
-      blockinline = parse(e.target.value).toTex();
-      console.log(blockinline);
-    } catch {
-      blockinline = parse(`Not a valid input`).toTex();
-    }
-    setLatexVal(blockinline);
+    updatePreview(e.target.value);
   };
 
-  const sendMath = () => {
-    const data = {
-      calculator: "taylor",
-      data: { mathequation: textboxval, point: [xval, yval], order: orderval },
-    };
-    console.log(data);
-    fetch("/calculator", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLatexAnswer(data);
-        console.log(data);
-      });
-  };
   return (
     <div className="standard">
       <h3>Taylor Polynomial</h3>
@@ -50,17 +25,15 @@ function Taylor() {
         This Taylor Polynomial calculator works for multivariable equations. Your input can be f(x, y) or just f(x).
         The Taylor Polynomial can be found using this formula:
       </p>
-        <div className="sidebyside2">
-            <div className="moveup">
-                <MathRenderer mathformula="T_{1}(x, y)=f(x_{0},y_{0})+f_{x}(x_{0},y_{0})(x-x_{0})+f_{y}(x_{0},y_{0})(y-y_{0}) \\"></MathRenderer>
-            </div>
-            <div className="moveup">
-                <MathRenderer mathformula="T_{2}(x, y)=f(x_{0},y_{0})+f_{x}(x_{0},y_{0})(x-x_{0})+f_{y}(x_{0},y_{0})(y-y_{0})+
-                \frac{f_{xx}(x_{0},y_{0})}{2}(x-x_{0})^{2}\\+\frac{f_{yy}(x_{0},y_{0})}{2}(y-y_{0})^{2} +f_{xy}(x_{0},y_{0})
-                (x-x_{0})(y - y_{0}) \\"></MathRenderer>
-            </div>
+      <div className="sidebyside2">
+        <div className="moveup">
+          <MathRenderer mathformula="T_{1}(x, y)=f(x_{0},y_{0})+f_{x}(x_{0},y_{0})(x-x_{0})+f_{y}(x_{0},y_{0})(y-y_{0}) \\" />
         </div>
-        <p>This calculator can accept orders above 2.</p>
+        <div className="moveup">
+          <MathRenderer mathformula="T_{2}(x, y)=f(x_{0},y_{0})+f_{x}(x_{0},y_{0})(x-x_{0})+f_{y}(x_{0},y_{0})(y-y_{0})+\frac{f_{xx}(x_{0},y_{0})}{2}(x-x_{0})^{2}\\+\frac{f_{yy}(x_{0},y_{0})}{2}(y-y_{0})^{2} +f_{xy}(x_{0},y_{0})(x-x_{0})(y - y_{0}) \\" />
+        </div>
+      </div>
+      <p>This calculator can accept orders above 2.</p>
       <input
         type="text"
         value={textboxval}
@@ -85,25 +58,29 @@ function Taylor() {
         placeholder="Order"
         onChange={(e) => setorder(e.target.value)}
       />
-      <button onClick={sendMath}>Go</button>
-      <MathRenderer mathformula={latexval}></MathRenderer>
+      <button
+        onClick={() => calculate({ mathequation: textboxval, point: [xval, yval], order: orderval })}
+        disabled={isLoading}
+      >
+        {isLoading ? "Calculating..." : "Go"}
+      </button>
+      <MathRenderer mathformula={latexPreview} />
       <p>
-          Centered on point: &nbsp;
-          <div className="sidebyside">
-              <p className="parentheses">(</p>
-            <MathRenderer mathformula={xval}></MathRenderer>
-            <p className="comma">,</p>
-            <MathRenderer mathformula={yval}></MathRenderer>
-              <p className="parentheses">)</p>
-          </div>
+        Centered on point: &nbsp;
+        <div className="sidebyside">
+          <p className="parentheses">(</p>
+          <MathRenderer mathformula={xval} />
+          <p className="comma">,</p>
+          <MathRenderer mathformula={yval} />
+          <p className="parentheses">)</p>
+        </div>
       </p>
-      {latexanswer !== null ? (
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {result !== null && (
         <>
           <h1>Taylor Polynomial</h1>
-          <MathRenderer mathformula={latexanswer} />
+          <MathRenderer mathformula={result} />
         </>
-      ) : (
-        ""
       )}
       <Link to="/">
         <p className="smallerText">Back to Home</p>

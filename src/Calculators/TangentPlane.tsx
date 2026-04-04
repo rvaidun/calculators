@@ -1,47 +1,23 @@
 import { useState } from "react";
 import "../App.css";
 import MathRenderer from "../Components/MathRenderer";
-import { parse } from "mathjs";
 import { Link } from "react-router-dom";
+import { useCalculator } from "../hooks/useCalculator";
+import { useLatexPreview } from "../hooks/useLatexPreview";
+import { TangentPlaneResponse } from "../types";
 
 function TangentPlane() {
   const [textboxval, setTextBoxVal] = useState("");
   const [xval, setxval] = useState("");
   const [yval, setyval] = useState("");
-  const [latexval, setLatexVal] = useState("");
-  const [latexanswer, setLatexAnswer] = useState(null);
+  const { latexPreview, updatePreview } = useLatexPreview();
+  const { result, error, isLoading, calculate } = useCalculator<TangentPlaneResponse>("tangentplane");
 
-  const eqchange = (e: any) => {
+  const eqchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextBoxVal(e.target.value);
-    let blockinline: string;
-    try {
-      blockinline = parse(e.target.value).toTex();
-      console.log(blockinline);
-    } catch {
-      blockinline = parse(`Not a valid input`).toTex();
-    }
-    setLatexVal(blockinline);
+    updatePreview(e.target.value);
   };
 
-  const sendMath = () => {
-    const data = {
-      calculator: "tangentplane",
-      data: { mathequation: textboxval, point: [xval, yval] },
-    };
-    console.log(data);
-    fetch("/calculator", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLatexAnswer(data);
-        console.log(data);
-      });
-  };
   return (
     <div className="standard">
       <h3>Equation for a tangent plane</h3>
@@ -54,12 +30,12 @@ function TangentPlane() {
         plugging in the given point for each partial derivative. Then, f(x, y) is evaluated at the given point
         and the tangent plane is constructed.
       </p>
-        <div className="sidebyside">
-            <MathRenderer className="sidebyside" mathformula="\frac{df}{d x}" />
-            &nbsp;&nbsp;
-            <MathRenderer className="sidebyside2" mathformula="\frac{df}{d y}" />
-        </div>
-        <br></br>
+      <div className="sidebyside">
+        <MathRenderer className="sidebyside" mathformula="\frac{df}{d x}" />
+        &nbsp;&nbsp;
+        <MathRenderer className="sidebyside2" mathformula="\frac{df}{d y}" />
+      </div>
+      <br />
       <input
         type="text"
         value={textboxval}
@@ -78,15 +54,19 @@ function TangentPlane() {
         placeholder="Y value"
         onChange={(e) => setyval(e.target.value)}
       />
-      <button onClick={sendMath}>Go</button>
-      <MathRenderer mathformula={latexval}></MathRenderer>
-      {latexanswer !== null ? (
+      <button
+        onClick={() => calculate({ mathequation: textboxval, point: [xval, yval] })}
+        disabled={isLoading}
+      >
+        {isLoading ? "Calculating..." : "Go"}
+      </button>
+      <MathRenderer mathformula={latexPreview} />
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {result !== null && (
         <>
           <h1>Equation of the Tangent Plane</h1>
-          <MathRenderer mathformula={latexanswer.answer} />
+          <MathRenderer mathformula={result.answer} />
         </>
-      ) : (
-        ""
       )}
       <Link to="/">
         <p className="smallerText">Back to Home</p>

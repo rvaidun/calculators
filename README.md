@@ -1,46 +1,104 @@
-# Getting Started with Create React App
+# vcalcs — Vector Calculus Calculators
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web application providing symbolic math calculators for common vector calculus problems. Built with React/TypeScript on the frontend and Python/Flask + SymPy on the backend.
 
-## Available Scripts
+## Calculators
 
-In the project directory, you can run:
+| Calculator | Description |
+|---|---|
+| Derivative | Derivative of f(x) with respect to x |
+| Partial Derivative | Partial derivative of f with respect to any variable |
+| Discriminant | Discriminant, saddle points, local minima/maxima of f(x, y) |
+| Tangent Plane | Equation of tangent plane to f(x, y) at a given point |
+| Taylor Polynomial | Multivariable Taylor polynomial of any order |
+| Min/Max with Constraint | Lagrange multiplier extrema for f subject to g |
+| Divergence and Curl | Divergence and curl of a 3D vector field |
 
-### `yarn start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Frontend**: React 17, TypeScript, Material-UI, MathJax (`@nteract/mathjax`), mathjs
+- **Backend**: Python, Flask, SymPy
+- **Math rendering**: MathJax via `@nteract/mathjax`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Running Locally
 
-### `yarn test`
+### Backend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+cd backend
+pip install -r requirements.txt
+python app.py
+```
 
-### `yarn build`
+The Flask server runs on `http://localhost:5000` by default.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To enable debug mode:
+```bash
+FLASK_DEBUG=true python app.py
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Frontend
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+# Install dependencies
+yarn install
 
-### `yarn eject`
+# Start development server (proxies API calls to Flask on port 5000)
+yarn start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Open `http://localhost:3000` in your browser.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Building for Production
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+yarn build
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+This outputs to `backend/build/`, which Flask serves as static files. Run `python backend/app.py` to serve the full application.
 
-## Learn More
+## Running Tests
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Backend tests
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+cd backend
+pytest test_calculators.py -v
+```
+
+### Frontend tests
+
+```bash
+yarn test
+```
+
+## Project Structure
+
+```
+├── src/
+│   ├── App.tsx                  # Router and page components
+│   ├── Navbar.tsx               # Navigation bar
+│   ├── types.ts                 # TypeScript interfaces
+│   ├── hooks/
+│   │   ├── useCalculator.ts     # Shared fetch + error handling hook
+│   │   └── useLatexPreview.ts   # Live LaTeX preview hook
+│   ├── Calculators/             # One component per calculator
+│   └── Components/
+│       └── MathRenderer.tsx     # MathJax wrapper
+├── backend/
+│   ├── app.py                   # Flask server and routes
+│   ├── calculatorsfuncs.py      # SymPy calculator implementations
+│   ├── requirements.txt         # Python dependencies
+│   └── test_calculators.py      # Backend unit tests
+└── public/
+```
+
+## Input Syntax
+
+Equations use Python/SymPy syntax:
+
+- Exponentiation: `x**2` or `x^2`
+- Euler's number: `e` (automatically converted to `E`)
+- Implicit multiplication: `2x` is valid
+- Trig functions: `sin(x)`, `cos(x)`, `tan(x)`
+- Natural log: `log(x)`

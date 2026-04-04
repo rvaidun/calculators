@@ -1,56 +1,19 @@
 import { useState } from "react";
 import "../App.css";
 import MathRenderer from "../Components/MathRenderer";
-import { parse } from "mathjs";
 import { Link } from "react-router-dom";
+import { useCalculator } from "../hooks/useCalculator";
+import { useLatexPreview } from "../hooks/useLatexPreview";
 
 function Constraint() {
   const [textboxval, setTextBoxVal] = useState("");
-  const [latexval, setLatexVal] = useState("");
-  const [latexanswer, setLatexAnswer] = useState("");
   const [constraintVal, setConstraintBoxVal] = useState("");
+  const { latexPreview, updatePreview } = useLatexPreview();
+  const { result, error, isLoading, calculate } = useCalculator<string[]>("constraint");
 
-  const eqchange = (e: any) => {
+  const eqchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextBoxVal(e.target.value);
-    let blockinline: string;
-    try {
-      blockinline = parse(e.target.value).toTex();
-      console.log(blockinline);
-    } catch {
-      blockinline = parse(`Not a valid input`).toTex();
-    }
-    setLatexVal(blockinline);
-  };
-
-  const varchange = (e: any) => {
-    setConstraintBoxVal(e.target.value);
-    let blockinline: string;
-    try {
-      blockinline = parse(e.target.value).toTex();
-      console.log(blockinline);
-    } catch {
-      blockinline = parse(`Not a valid input`).toTex();
-    }
-  };
-
-  const sendMath = () => {
-    const data = {
-      calculator: "constraint",
-      data: { mathequation: textboxval, constraint: constraintVal },
-    };
-    console.log(data);
-    fetch("/calculator", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLatexAnswer(data);
-        console.log(data);
-      });
+    updatePreview(e.target.value);
   };
 
   return (
@@ -65,7 +28,7 @@ function Constraint() {
       <p>
         This can be done without a calculator by using the Lagrange equations.
       </p>
-        <MathRenderer mathformula="\nabla f=\lambda\nabla g"></MathRenderer>
+      <MathRenderer mathformula="\nabla f=\lambda\nabla g" />
       <input
         type="text"
         value={textboxval}
@@ -76,13 +39,26 @@ function Constraint() {
         type="text"
         value={constraintVal}
         placeholder="Constraint g"
-        onChange={varchange}
+        onChange={(e) => setConstraintBoxVal(e.target.value)}
       />
-      <button onClick={sendMath}>Go</button>
-      <MathRenderer mathformula={latexval}></MathRenderer>
+      <button
+        onClick={() => calculate({ mathequation: textboxval, constraint: constraintVal })}
+        disabled={isLoading}
+      >
+        {isLoading ? "Calculating..." : "Go"}
+      </button>
+      <MathRenderer mathformula={latexPreview} />
       <p>Subject to constraint: </p>
-      <MathRenderer mathformula={constraintVal}></MathRenderer>
-      <MathRenderer mathformula={latexanswer}></MathRenderer>
+      <MathRenderer mathformula={constraintVal} />
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {result !== null && (
+        <>
+          <h1>Extrema</h1>
+          {result.map((val, i) => (
+            <MathRenderer key={i} mathformula={val} />
+          ))}
+        </>
+      )}
       <Link to="/">
         <p className="smallerText">Back to Home</p>
       </Link>

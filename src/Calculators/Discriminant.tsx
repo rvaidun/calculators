@@ -1,51 +1,33 @@
 import { useState } from "react";
+import React from "react";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-// import Typography from "@material-ui/core/Typography";
 
 import "../App.css";
 import MathRenderer from "../Components/MathRenderer";
-import { parse } from "mathjs";
 import { Link } from "react-router-dom";
+import { useCalculator } from "../hooks/useCalculator";
+import { useLatexPreview } from "../hooks/useLatexPreview";
+import { DiscriminantResponse, DiscriminantStep } from "../types";
 
 function Discriminant() {
   const [textboxval, setTextBoxVal] = useState("");
-  const [latexval, setLatexVal] = useState("");
-  const [latexanswer, setLatexAnswer] = useState(null);
+  const { latexPreview, updatePreview } = useLatexPreview();
+  const { result, error, isLoading, calculate } = useCalculator<DiscriminantResponse>("discriminant");
 
-  const eqchange = (e: any) => {
+  const eqchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextBoxVal(e.target.value);
-    let blockinline: string;
-    try {
-      blockinline = parse(e.target.value).toTex();
-      console.log(blockinline);
-    } catch {
-      blockinline = parse(`Not a valid input`).toTex();
-    }
-    setLatexVal(blockinline);
+    updatePreview(e.target.value);
   };
 
-  const sendMath = () => {
-    const data = {
-      calculator: "discriminant",
-      data: { mathequation: textboxval },
-    };
-    console.log(data);
-    fetch("/calculator", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLatexAnswer(data);
-        console.log(data);
-      });
-  };
+  const renderStep = (step: DiscriminantStep, i: number) => (
+    <React.Fragment key={i}>
+      {"text" in step ? <p>{step.text}</p> : <MathRenderer mathformula={step.latex!} />}
+    </React.Fragment>
+  );
+
   return (
     <div className="standard">
       <h3>Discriminant, Saddle Points, Local Minima and Local Maxima</h3>
@@ -61,67 +43,48 @@ function Discriminant() {
         placeholder="Equation f(x, y)"
         onChange={eqchange}
       />
-      <button onClick={sendMath}>Go</button>
-      <MathRenderer
-        className="mathrenderer"
-        mathformula={latexval}
-      ></MathRenderer>
-      {latexanswer !== null ? (
+      <button onClick={() => calculate({ mathequation: textboxval })} disabled={isLoading}>
+        {isLoading ? "Calculating..." : "Go"}
+      </button>
+      <MathRenderer className="mathrenderer" mathformula={latexPreview} />
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {result !== null && (
         <>
-          <h1>Discriminent</h1>
+          <h1>Discriminant</h1>
           <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <MathRenderer mathformula={latexanswer.discriminant} />
+              <MathRenderer mathformula={result.discriminant} />
             </AccordionSummary>
-
             <AccordionDetails className="detailcenter">
               <ol>
-                {latexanswer.steps.discriminant.map((l) => (
-                  <>
-                    {"text" in l ? (
-                      <p>{l.text}</p>
-                    ) : (
-                      <MathRenderer mathformula={l.latex} />
-                    )}
-                  </>
-                ))}
+                {result.steps.discriminant.map(renderStep)}
               </ol>
             </AccordionDetails>
           </Accordion>
           <h1>Saddle Points</h1>
           <ul>
-            {latexanswer.steps.saddlepoints.map((l) => (
-              <>
-                {"text" in l ? (
-                  <p>{l.text}</p>
-                ) : (
-                  <MathRenderer mathformula={l.latex} />
-                )}
-              </>
-            ))}
-            {latexanswer.saddlepoints.map((number) => (
-              <MathRenderer mathformula={number} />
+            {result.steps.saddlepoints.map(renderStep)}
+            {result.saddlepoints.map((point, i) => (
+              <MathRenderer key={i} mathformula={point} />
             ))}
           </ul>
           <h1>Local Minima</h1>
           <ul>
-            {latexanswer.min.map((number) => (
-              <MathRenderer mathformula={number} />
+            {result.min.map((point, i) => (
+              <MathRenderer key={i} mathformula={point} />
             ))}
           </ul>
           <h1>Local Maximum</h1>
           <ul>
-            {latexanswer.max.map((number) => (
-              <MathRenderer mathformula={number} />
+            {result.max.map((point, i) => (
+              <MathRenderer key={i} mathformula={point} />
             ))}
           </ul>
         </>
-      ) : (
-        ""
       )}
       <Link to="/">
         <p className="smallerText">Back to Home</p>

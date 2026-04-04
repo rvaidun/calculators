@@ -1,37 +1,23 @@
-from flask import Flask, render_template, request, Response, url_for, redirect, session, jsonify
-from sympy.parsing.sympy_parser import parse_expr
-from sympy import *
-import calculatorsfuncs
+import os
+from flask import Flask, request, jsonify
 from sympy.parsing.sympy_parser import standard_transformations, implicit_multiplication_application, convert_xor
+import calculatorsfuncs
 
 transformations = (standard_transformations +
-                   (implicit_multiplication_application,) + (convert_xor,) )
+                   (implicit_multiplication_application,) + (convert_xor,))
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
-calcs = {'discriminant': calculatorsfuncs.saddle_min_max,
-         'tangentplane': calculatorsfuncs.tangent_plane_to_graph,
-         'derivative': calculatorsfuncs.derivative,
-         'partial_derivative': calculatorsfuncs.partial_derivative,
-         'taylor': calculatorsfuncs.taylor,
-         'constraint': calculatorsfuncs.constraint,
-         'divcurl': calculatorsfuncs.divcurl,
-         }
+calcs = {
+    'discriminant': calculatorsfuncs.saddle_min_max,
+    'tangentplane': calculatorsfuncs.tangent_plane_to_graph,
+    'derivative': calculatorsfuncs.derivative,
+    'partial_derivative': calculatorsfuncs.partial_derivative,
+    'taylor': calculatorsfuncs.taylor,
+    'constraint': calculatorsfuncs.constraint,
+    'divcurl': calculatorsfuncs.divcurl,
+}
 
 
-def divergence(matheq):
-    x, y, z = symbols('x y z')
-
-
-# @app.route('/', methods=['GET'])
-# @app.route('/derivative')
-# @app.route('/partial-derivative')
-# @app.route('/help')
-# @app.route('/tangentplane')
-# @app.route('/taylor')
-# @app.route('/discriminant')
-# @app.route('/constraint')
-# @app.route('/donate')
-# @app.route('/divcurl')
 @app.route('/', defaults={'path': ''}, methods=['GET'])
 @app.route('/<path:path>')
 def index(path):
@@ -40,10 +26,25 @@ def index(path):
 
 @app.route('/calculator', methods=['POST'])
 def calculator():
-    print(request.json)
-    if request.json['calculator'] in calcs:
-        return jsonify(calcs[request.json['calculator']](request.json['data']))
+    if not request.json:
+        return jsonify({'error': 'Invalid request body'}), 400
+
+    calculator_name = request.json.get('calculator')
+    data = request.json.get('data')
+
+    if calculator_name not in calcs:
+        return jsonify({'error': f'Unknown calculator: {calculator_name}'}), 400
+
+    if not isinstance(data, dict):
+        return jsonify({'error': 'Invalid data payload'}), 400
+
+    try:
+        result = calcs[calculator_name](data)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
+    app.run(debug=debug)

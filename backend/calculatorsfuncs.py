@@ -20,8 +20,6 @@ transformations = (
             (my_transformations,) + standard_transformations + (implicit_multiplication_application, convert_xor))
 
 
-# x^3+y^4-6*x-2*y^2+2
-
 def derivative(data):
     x = symbols('x')
     parsed = parse_expr(data['mathequation'], transformations=transformations)
@@ -34,14 +32,12 @@ def partial_derivative(data):
         respect_to_var = int(respect_to_var)
         return "Error"
     except ValueError:
-        print("Letter passed in")
+        pass
     x = symbols(f'{respect_to_var}')
     if data['mathequation'] == "":
         return "Empty"
-    data['mathequation'] = data['mathequation']
     eq = parse_expr(data['mathequation'],
                     transformations=transformations)
-    print(diff(eq, x))
     return latex(diff(eq, x))
 
 
@@ -49,10 +45,6 @@ def saddle_min_max(data):
     x, y = symbols('x y', real=True)
 
     f = parse_expr(data['mathequation'], locals(), transformations=transformations)
-    # print(type(fTest))
-    # f = eval('x**3+y**4-6*x-2*y**2+2')
-    # print(type(f))
-    # print(fTest==f)
     fx = diff(f, x)
     fy = diff(f, y)
     D = diff(fx, x) * diff(fy, y) - diff(diff(f, x), y) ** 2
@@ -103,19 +95,10 @@ def tangent_plane_to_graph(data):
     x, y = symbols('x y')
     xs = int(data['point'][0])
     ys = int(data['point'][1])
-    data['mathequation'] = data['mathequation']
     f = parse_expr(data['mathequation'], transformations=transformations)
-    print('f', latex(f))
-    hardcoded = E ** (5 * x - 6 * y)
-    print('hardcoded', latex(hardcoded))
     dzx = diff(f, x).subs(x, xs).subs(y, ys)
-    print('dzx', latex(dzx))
-    dzx
     dzy = diff(f, y).subs(x, xs).subs(y, ys)
-    print('dzy', latex(dzy))
-    dzy
     fab = f.subs(x, xs).subs(y, ys)
-    print('fab', latex(fab))
     ans = fab + dzx * (x - xs) + dzy * (y - ys)
     return {'answer': latex(ans)}
 
@@ -126,20 +109,16 @@ def mtaylor(funexpr, x, mu, order=1):
     command = ''
     command = "symbols('" + '  '.join(hlist) + "')"
     hvar = eval(command)
-    # mtaylor is utaylor for specificly defined function
     t = symbols('t')
-    # substitution
     loc_funexpr = funexpr
     for i in range(nvars):
         locvar = x[i]
         locsubs = mu[i] + t * hvar[i]
         loc_funexpr = loc_funexpr.subs(locvar, locsubs)
-    # calculate taylorseries
     g = 0
     for i in range(order + 1):
         g += loc_funexpr.diff(t, i).subs(t, 0) * t ** i / math.factorial(i)
 
-    # resubstitute
     for i in range(nvars):
         g = g.subs(hlist[i], x[i] - mu[i])
 
@@ -152,20 +131,14 @@ def taylor(data):
     f = parse_expr(data['mathequation'], transformations=transformations)
     vars = [x, y]
     try:
-        mu = [int(x) for x in data['point']]
+        mu = [int(v) for v in data['point']]
     except ValueError:
         return "Error"
-    order = data['order']
-    order = int(order)
-    print(mu)
-    print(type(order))
+    order = int(data['order'])
     ans = mtaylor(f, vars, mu, order=order)
-    print(ans)
     return latex(ans)
 
 
-# 5x + 6y + 2z
-# x^2 + 6y^2 + 3z^2 - 1
 def constraint(data):
     x, y, z, a = symbols('x y z a')
     f = parse_expr(data['mathequation'], transformations=transformations)
@@ -189,7 +162,6 @@ def constraint(data):
         ys = y1.subs(a, lamdas)
         zs = z1.subs(a, lamdas)
 
-        f.subs(x, xs).subs(y, ys).subs(z, zs)
         return [latex(f.subs(x, xs).subs(y, ys).subs(z, zs)), latex(-f.subs(x, xs).subs(y, ys).subs(z, zs))]
     fans = f.subs(x, solve(expr, x)[0])
     yans = solve(diff(fans, y), y)
@@ -206,7 +178,4 @@ def divcurl(data):
     Vz = parse_expr(data['z'], transformations=transformations)
     div = diff(Vx, x) + diff(Vy, y) + diff(Vz, z)
     curl = Tuple(diff(Vz, y) - diff(Vy, z), diff(Vx, z) - diff(Vz, x), diff(Vy, x) - diff(Vx, y))
-    retlist = []
-    retlist.append(latex(div))
-    retlist.append(latex(curl))
-    return retlist
+    return [latex(div), latex(curl)]
