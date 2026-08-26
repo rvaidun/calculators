@@ -1,0 +1,15 @@
+.git
+.github
+node_modules
+build
+backend/build
+backend/.venv
+backend/uv.lock
+**/__pycache__
+*.pyc
+.env
+.env.local
+bun.lockb
+Dockerfile
+.dockerignore
+README.md

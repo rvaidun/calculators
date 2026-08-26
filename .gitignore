@@ -24,8 +24,11 @@ yarn-error.log*
 
 .vscode
 backend/venv
+backend/.venv
+backend/build
 venv
 .idea/
 package-lock.json
 backend/test.py
 backend/__pycache__
+bun.lockb
